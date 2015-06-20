@@ -1,4 +1,6 @@
 package {
+import Screens.AppScreen;
+import Screens.HomeScreen;
 import starling.display.DisplayObjectContainer;
 
 
@@ -23,7 +25,6 @@ import feathers.controls.LayoutGroup;
 
 		private var optionsHeight:Number;
 		private var optionsBar:OptionsBar;
-		private var _homeScreen:HomeScreen;
 		private var _currentScreen:LayoutGroup;
 		protected var textField:TextField;
  
@@ -33,25 +34,23 @@ import feathers.controls.LayoutGroup;
 			optionsHeight = stage.stageHeight/10;
 			setBackground();
 			optionsBar = new OptionsBar();
-			optionsBar.init(stage, optionsHeight);
-			
-			_homeScreen = new HomeScreen();
-			_homeScreen.init(stage);
-			
+			optionsBar.init(this, optionsHeight);
+	
 			this.addChild( optionsBar );	
-			
-			setScreen(_homeScreen);
+		
 
            
 
 			this.addChild( optionsBar );
 		}
 		
-		private function setScreen(screen:LayoutGroup):void
+		public function setScreen(screen:AppScreen):void
 		{
 			removeChild(_currentScreen);
+			_currentScreen = screen;
 			screen.width = stage.stageWidth;
 			screen.height = stage.stageHeight - optionsHeight;
+			screen.y = optionsHeight;
 			addChild(screen);
 		}
 		private function setBackground():void

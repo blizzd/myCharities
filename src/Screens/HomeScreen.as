@@ -1,7 +1,6 @@
-package {
-	import flash.trace.Trace;
-	
+package Screens {
 	import blizz.serverCommLayer.models.UserDataModel;
+	import flash.trace.Trace;
 	import starling.display.Stage;
 	import starling.display.DisplayObjectContainer;
   
@@ -25,28 +24,25 @@ package {
 	/**
 	 * @author Bronko
 	 */
-	public class HomeScreen extends LayoutGroup
+	public class HomeScreen extends AppScreen
 	{
 	
 		private var _myStage:Stage;
 			
-		public function init(stage:Stage):void
+		public override function init(stage:Stage):void
 		{
 			_myStage = stage;
-			
+
 			var layout:VerticalLayout = new VerticalLayout();
 			layout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_CENTER;
 			layout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_MIDDLE;
 			this.layout = layout;
-
-			generateHeader()
-
-			
+			generateHeader();	
 		}
 		
 		private function generateHeader():void
 		{
-			var textField:TextField = new TextField(100,100,"");
+			 var textField:TextField = new TextField(100,100,"");
             textField.autoScale = true;
             textField.text = "Hello " + UserDataModel.currentUser + " !";
 
