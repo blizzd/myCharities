@@ -40,7 +40,7 @@ import starling.text.TextField;
 
             this.stage.addChild(textField);
 
-			this.addChild( button );
+			this.addChild( optionsBar );
 		}
 		
 		private function setBackground():void
