@@ -27,11 +27,13 @@ public class Main extends Sprite {
     private var _starling:Starling;
     public var reusableRequest:URLRequest;
     public var reusableLoader:URLLoader;
+    public var ppLoginPageView:StageWebView;
 
     public function Main() {
 		_starling = new Starling(App, stage);
 		showAppForUser("Mister Fab");
         //initPaypal();
+        showPaypalLoginPage();
 	}
 
     protected function initPaypal():void {
@@ -83,15 +85,15 @@ public class Main extends Sprite {
     }
 
     private function showPaypalLoginPage(resultPage:String = null):void {
-        var ppLoginPAgeView:StageWebView = new StageWebView();
-        ppLoginPAgeView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
-        ppLoginPAgeView.stage = this.stage;
-        ppLoginPAgeView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onUserLoginAttempt);
+        ppLoginPageView = new StageWebView();
+        ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+        ppLoginPageView.stage = this.stage;
+        ppLoginPageView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onUserLoginAttempt);
         if (resultPage) {
-            ppLoginPAgeView.loadString(resultPage,"text/html");
+            ppLoginPageView.loadString(resultPage,"text/html");
         }
         else {
-            ppLoginPAgeView.loadURL("http://sandbox.paypal.com/login");
+            ppLoginPageView.loadURL("http://my-charities-server.herokuapp.com/authenticate");
         }
     }
 
@@ -101,6 +103,8 @@ public class Main extends Sprite {
 
     private function handlePPLoginParams(location:String):void {
         trace(location);
+        ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+        ppLoginPageView.stage = this.stage;
     }
 
     protected function setStatus(msg:String):void {
