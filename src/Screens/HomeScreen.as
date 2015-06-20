@@ -1,4 +1,9 @@
 package Screens {
+	import starling.display.Image;
+	import starling.textures.Texture;
+	import flash.display.Bitmap;
+	import starling.text.TextFieldAutoSize;
+	import starling.text.TextField;
 	import blizz.serverCommLayer.models.UserDataModel;
 	import flash.trace.Trace;
 	import starling.display.Stage;
@@ -12,7 +17,6 @@ package Screens {
 	import feathers.controls.LayoutGroup;
 	import starling.display.Sprite;
 	import starling.display.Quad;
-	import starling.text.TextField;
 	import feathers.controls.Button;
 	import feathers.controls.Callout;
 	import feathers.controls.Label;
@@ -27,26 +31,70 @@ package Screens {
 	public class HomeScreen extends AppScreen
 	{
 	
+	[Embed(source="../Graphics/king.png")]
+	public static const King:Class;
+
 		private var _myStage:Stage;
+		private var _root:LayoutGroup;
+		private var _header:LayoutGroup;
+		private var _topOffset:Number = 35;
 			
 		public override function init(stage:Stage):void
 		{
 			_myStage = stage;
-
+			_root = new LayoutGroup();
+			_header = new LayoutGroup();
+			
 			var layout:VerticalLayout = new VerticalLayout();
-			layout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_CENTER;
-			layout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_MIDDLE;
-			this.layout = layout;
+			layout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_LEFT;
+			layout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_TOP;
+			_header.width = _myStage.stageWidth;
+			_header.layout = layout;
+			_header.y += _topOffset;
 			generateHeader();	
+			
+			addChild(_root);
+			addChild(_header);	
+			addIcon();
 		}
 		
 		private function generateHeader():void
 		{
-			 var textField:TextField = new TextField(100,100,"");
-            textField.autoScale = true;
-            textField.text = "Hello " + UserDataModel.currentUser + " !";
-
-            addChild(textField);
+			var headerHeight:Number = _myStage.stageHeight/5;
+			var layout:VerticalLayout = new VerticalLayout();
+			layout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_CENTER;
+			layout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_TOP;
+			_root.layout = layout;
+			_root.width = _myStage.stageWidth;
+			_root.y += _topOffset;
+			var bg:Quad = new Quad( _myStage.stageWidth -84, headerHeight, 0x7eff8c );
+			var text:String = "Hello " + UserDataModel.currentUser + " !\n" +
+			"Rank: King Giving\n" +
+			"Donated X Times. X donations needed for next rank.";
+			 var textField:TextField = new TextField(100, 100, "");
+			 textField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+			 textField.text = text;
+			 textField.pivotX -= 50;
+			 
+			 
+			
+			 
+			_root.addChild(bg);
+            _header.addChild(textField);
+			
+			
 		}	
+		
+		private function addIcon():void
+		{
+			var container:LayoutGroup = new LayoutGroup();
+			var texture:Texture = Texture.fromBitmap(new King());
+ 			var image:Image = new Image(texture);
+			image.scaleX = image.scaleY = 0.5;
+			container.addChild(image);
+			container.y = 10;
+			container.x = _myStage.stageWidth -84;
+			addChild(container);
+		}
 	}
 }

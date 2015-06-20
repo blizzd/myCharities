@@ -35,7 +35,7 @@ package {
 				private var _donationButton:Button;
 				private var _settingsButton:Button;
 				private var _braggingButton:Button;
-				private var _charityButton;
+				private var _charityButton:Button;
 				private var _helpButton:Button;
 				private var _myStage:Stage;
 				private var _app:App;
