@@ -1,4 +1,6 @@
 package Screens {
+	import feathers.data.ListCollection;
+	import feathers.controls.List;
 	import starling.display.Image;
 	import starling.textures.Texture;
 	import flash.display.Bitmap;
@@ -56,10 +58,13 @@ package Screens {
 			addChild(_root);
 			addChild(_header);	
 			addIcon();
+			addList();
 		}
 		
 		private function generateHeader():void
 		{
+			
+			
 			var headerHeight:Number = _myStage.stageHeight/5;
 			var layout:VerticalLayout = new VerticalLayout();
 			layout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_CENTER;
@@ -95,6 +100,29 @@ package Screens {
 			container.y = 10;
 			container.x = _myStage.stageWidth -84;
 			addChild(container);
+		}
+		
+		private function addList():void
+		{
+			 var textField:TextField = new TextField(100, 100, "");
+			 textField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+			 textField.text = "Recent Donations:";
+			 textField.pivotY -= 5;
+			 _root.addChild(textField);
+			 
+			var list:List = new List();
+			var recentDonations:ListCollection = new ListCollection(
+			[
+  			  { text: "Ebay " + "0,30 Euro" },
+  			  { text: "SteamApp " + "1 Euro" },
+    		  { text: "Google Play " + "0,42 Euro"  },
+  			  { text: "battle.net " + "0,33 Euro" },
+			]);
+			list.dataProvider = recentDonations;
+			list.pivotY -= 20;
+			list.itemRendererProperties.labelField = "text";
+			list.isSelectable =false;
+			_root.addChild(list);
 		}
 	}
 }
