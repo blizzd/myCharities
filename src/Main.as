@@ -8,7 +8,11 @@ import com.adobe.serialization.json.JSON;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.IOErrorEvent;
+import flash.events.LocationChangeEvent;
 import flash.events.SecurityErrorEvent;
+import flash.geom.Rectangle;
+import flash.media.StageWebView;
+import flash.media.StageWebViewImpl;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
 import flash.net.URLRequestHeader;
@@ -30,8 +34,8 @@ public class Main extends Sprite {
 	}
 
     protected function initPaypal():void {
-       /* reusableRequest = new URLRequest();
-        reusableRequest.url = "https://my-charities-server.herokuapp.com/";
+        reusableRequest = new URLRequest();
+        reusableRequest.url = "http://my-charities-server.herokuapp.com/authenticate";
         reusableRequest.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
         reusableRequest.method = URLRequestMethod.GET;
         reusableLoader = new URLLoader();
@@ -39,8 +43,9 @@ public class Main extends Sprite {
         reusableLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, notAllowed);
         reusableLoader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
-        reusableLoader.load(reusableRequest);*/
-        showAppForUser("Mister Fab");
+        reusableLoader.load(reusableRequest);
+       // showAppForUser("Mister Fab");
+         //showPaypalLoginPage();
     }
 
     private function notFound(event:IOErrorEvent):void {
@@ -75,7 +80,20 @@ public class Main extends Sprite {
     }
 
     private function showPaypalLoginPage():void {
-        //show WebView, and then wait for results there
+        var ppLoginPAgeView:StageWebView = new StageWebView();
+        ppLoginPAgeView.viewPort = new Rectangle( 0, 0, this.stage.stageWidth, this .stage.stageHeight);
+        ppLoginPAgeView.stage = this.stage;
+        ppLoginPAgeView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onUserLoginAttempt);
+        ppLoginPAgeView.loadURL("http://sandbox.paypal.com/login");
+
+    }
+
+    private function onUserLoginAttempt(event:LocationChangeEvent):void {
+        handlePPLoginParams(event.location);
+    }
+
+    private function handlePPLoginParams(location:String):void {
+        trace(location);
     }
 
     protected function setStatus(msg:String):void{
