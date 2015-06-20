@@ -105,6 +105,10 @@ public class Main extends Sprite {
         trace(location);
         ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
         ppLoginPageView.stage = this.stage;
+        if (location.search("") > -1)
+        {
+          ;
+        }
     }
 
     protected function setStatus(msg:String):void {
