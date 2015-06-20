@@ -1,27 +1,9 @@
 package {
-	import flashx.textLayout.formats.VerticalAlign;
-	import com.adobe.utils.NumberFormatter;
-	import org.osmf.layout.HorizontalAlign;
-  
-	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.AnchorLayout;
-	import feathers.layout.HorizontalLayoutData;
-	import feathers.layout.HorizontalLayout;
-	import feathers.controls.renderers.LayoutGroupGroupedListHeaderOrFooterRenderer;
-	import feathers.controls.LayoutGroup;
-	import starling.display.Sprite;
-	import starling.display.Quad;
-	import starling.text.TextField;
-	import feathers.controls.Button;
-	import feathers.controls.Callout;
-	import feathers.controls.Label;
-	import feathers.themes.MinimalMobileTheme;
-	import feathers.layout.VerticalLayout;
 import blizz.serverCommLayer.models.UserDataModel;
 
-import feathers.controls.Button;
 import feathers.themes.MinimalMobileTheme;
 
+import starling.display.Quad;
 import starling.display.Sprite;
 import starling.events.Event;
 import starling.text.TextField;
