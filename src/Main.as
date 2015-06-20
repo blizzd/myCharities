@@ -8,7 +8,11 @@ import com.adobe.serialization.json.JSON;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.IOErrorEvent;
+import flash.events.LocationChangeEvent;
 import flash.events.SecurityErrorEvent;
+import flash.geom.Rectangle;
+import flash.media.StageWebView;
+import flash.media.StageWebViewImpl;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
 import flash.net.URLRequestHeader;
@@ -20,19 +24,21 @@ import starling.core.Starling;
 public class Main extends Sprite {
 
     public var textField:TextField;
-	private var _starling:Starling;
-	public var reusableRequest:URLRequest;
+    private var _starling:Starling;
+    public var reusableRequest:URLRequest;
     public var reusableLoader:URLLoader;
+    public var ppLoginPageView:StageWebView;
 
     public function Main() {
 		_starling = new Starling(App, stage);
 		showAppForUser("Mister Fab");
         //initPaypal();
+        showPaypalLoginPage();
 	}
 
     protected function initPaypal():void {
         reusableRequest = new URLRequest();
-        reusableRequest.url = "https://my-charities-server.herokuapp.com/";
+        reusableRequest.url = "http://my-charities-server.herokuapp.com/update";
         reusableRequest.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
         reusableRequest.method = URLRequestMethod.GET;
         reusableLoader = new URLLoader();
@@ -41,7 +47,8 @@ public class Main extends Sprite {
         reusableLoader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
         reusableLoader.load(reusableRequest);
-        //showAppForUser("Mister Fab");
+        // showAppForUser("Mister Fab");
+        //showPaypalLoginPage();
     }
 
     private function notFound(event:IOErrorEvent):void {
@@ -54,19 +61,21 @@ public class Main extends Sprite {
         addChild(textField);
     }
 
-    protected function initPaypalComplete(event:Event):void
-    {
-        var myResults:Array=com.adobe.serialization.json.JSON.decode(event.target.data);
-        setStatus(myResults.join());
-
-        if (myResults[0] == "new")
-        {
-           showPaypalLoginPage();
+    protected function initPaypalComplete(event:Event):void {
+        if ((event.target.data as String).indexOf("<") == 0) {
+            showPaypalLoginPage(event.target.data);
         }
-        else
-        if (myResults[0] == "existing")
-        {
-           showAppForUser(myResults[1] as String);
+        else {
+            var myResults:Array = com.adobe.serialization.json.JSON.decode(event.target.data);
+            trace(myResults);
+            setStatus(myResults.join());
+
+            if (myResults[0] == "new") {
+                showPaypalLoginPage();
+            }
+            else if (myResults[0] == "existing") {
+                showAppForUser(myResults[1] as String);
+            }
         }
     }
 
@@ -75,17 +84,41 @@ public class Main extends Sprite {
         UserDataModel.currentUser = myResult;
     }
 
-    private function showPaypalLoginPage():void {
-        //show WebView, and then wait for results there
+    private function showPaypalLoginPage(resultPage:String = null):void {
+        ppLoginPageView = new StageWebView();
+        ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+        ppLoginPageView.stage = this.stage;
+        ppLoginPageView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onUserLoginAttempt);
+        if (resultPage) {
+            ppLoginPageView.loadString(resultPage,"text/html");
+        }
+        else {
+            ppLoginPageView.loadURL("http://my-charities-server.herokuapp.com/authenticate");
+        }
     }
 
-    protected function setStatus(msg:String):void{
+    private function onUserLoginAttempt(event:LocationChangeEvent):void {
+        handlePPLoginParams(event.location);
+    }
+
+    private function handlePPLoginParams(location:String):void {
+        trace(location);
+        ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+        ppLoginPageView.stage = this.stage;
+        if (location.search("") > -1)
+        {
+          ;
+        }
+    }
+
+    protected function setStatus(msg:String):void {
 
         textField.text = msg;
         addChild(textField);
 
     }
-    protected function clearStatus():void{
+
+    protected function clearStatus():void {
         textField = new TextField();
         textField.text = "";
     }
