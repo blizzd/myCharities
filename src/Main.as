@@ -32,7 +32,7 @@ public class Main extends Sprite {
 		_starling = new Starling(App, stage);
 		showAppForUser("Mister Fab");
         //initPaypal();
-        showPaypalLoginPage();
+        //showPaypalLoginPage();
 	}
 
     protected function initPaypal():void {
