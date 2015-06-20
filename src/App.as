@@ -1,4 +1,22 @@
 package {
+	import flashx.textLayout.formats.VerticalAlign;
+	import com.adobe.utils.NumberFormatter;
+	import org.osmf.layout.HorizontalAlign;
+  
+	import feathers.layout.AnchorLayoutData;
+	import feathers.layout.AnchorLayout;
+	import feathers.layout.HorizontalLayoutData;
+	import feathers.layout.HorizontalLayout;
+	import feathers.controls.renderers.LayoutGroupGroupedListHeaderOrFooterRenderer;
+	import feathers.controls.LayoutGroup;
+	import starling.display.Sprite;
+	import starling.display.Quad;
+	import starling.text.TextField;
+	import feathers.controls.Button;
+	import feathers.controls.Callout;
+	import feathers.controls.Label;
+	import feathers.themes.MinimalMobileTheme;
+	import feathers.layout.VerticalLayout;
 import blizz.serverCommLayer.models.UserDataModel;
 
 import feathers.controls.Button;
@@ -18,17 +36,21 @@ import starling.text.TextField;
 			this.addEventListener( Event.ADDED_TO_STAGE, addedToStageHandler );
 		}
 		
-		protected var button:Button;
+
+		private var optionsHeight:Number;
+		private var optionsBar:OptionsBar;
 		protected var textField:TextField;
  
 		protected function addedToStageHandler( event:Event ):void
 		{
 			new MinimalMobileTheme();
-			this.button = new Button();
-			this.button.label = "Connect to Paypal";
-			this.button.addEventListener( Event.TRIGGERED, button_triggered);
-            this.button.x += 100;
-            this.button.y += 50;
+			optionsHeight = stage.stageHeight/10;
+			setBackground();
+			optionsBar = new OptionsBar();
+			optionsBar.init(stage, optionsHeight);
+			
+			this.addChild( optionsBar );	
+			//addChild(container);
 
             this.textField = new TextField(100,100,"");
             this.textField.autoScale = true;
@@ -39,9 +61,15 @@ import starling.text.TextField;
 			this.addChild( button );
 		}
 		
-		private function button_triggered(e:Event):void
+		private function setBackground():void
 		{
-			//Hookup paypal in here
+			var quad:Quad = new Quad( stage.stageWidth, optionsHeight, 0x7eff8c );
+			var quad2:Quad = new Quad( stage.stageWidth, stage.stageHeight - optionsHeight, 0xc0c0c0 );
+			quad2.y = optionsHeight;
+   			addChild( quad );
+			addChild( quad2 );
 		}
+		
+		
 	}
 }
