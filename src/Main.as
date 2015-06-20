@@ -1,9 +1,7 @@
 package {
 
 
-
-import blizz.presentationLayer.signals.UserEvent;
-import blizz.presentationLayer.views.FeathersAppPage;
+import blizz.serverCommLayer.models.UserDataModel;
 
 import com.adobe.serialization.json.JSON;
 
@@ -17,9 +15,7 @@ import flash.net.URLRequestHeader;
 import flash.net.URLRequestMethod;
 import flash.text.TextField;
 
-
 import starling.core.Starling;
-
 
 public class Main extends Sprite {
 
@@ -44,6 +40,7 @@ public class Main extends Sprite {
         reusableLoader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
         reusableLoader.load(reusableRequest);
+        //showAppForUser("Mister Fab");
     }
 
     private function notFound(event:IOErrorEvent):void {
@@ -74,7 +71,7 @@ public class Main extends Sprite {
 
     private function showAppForUser(myResult:String):void {
         _starling.start();
-        //Set the userName in the Model
+        UserDataModel.currentUser = myResult;
     }
 
     private function showPaypalLoginPage():void {
