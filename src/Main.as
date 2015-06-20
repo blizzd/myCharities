@@ -19,7 +19,6 @@ import flash.text.TextField;
 
 
 import starling.core.Starling;
-import starling.events.EventDispatcher;
 
 
 public class Main extends Sprite {
@@ -31,26 +30,8 @@ public class Main extends Sprite {
 
     public function Main() {
 		_starling = new Starling(App, stage);
-		_starling.start();
-        /* textField = new TextField();
-        var request:URLRequest = new URLRequest();
-        request.url = "";
-        request.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
-        request.method = URLRequestMethod.GET;
-        var loader:URLLoader = new URLLoader();
-        loader.addEventListener(Event.COMPLETE, receive);
-        loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, notAllowed);
-        loader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
-        clearStatus();
-        loader.load(request);*/
-	}
-	
- 
-
-    public function OtherMain():void {
-        textField = new TextField();
         initPaypal();
-    }
+	}
 
     protected function initPaypal():void {
         reusableRequest = new URLRequest();
@@ -92,12 +73,8 @@ public class Main extends Sprite {
     }
 
     private function showAppForUser(myResult:String):void {
-        var feathersAppPage:FeathersAppPage = new FeathersAppPage( myResult );
-        feathersAppPage.addEventListener(UserEvent.USER_LOADED, onUserCompletedAppLoad);
-    }
-
-    private function onUserCompletedAppLoad(event:UserEvent):void {
-        //add event.target to starlingLayer
+        _starling.start();
+        //Set the userName in the Model
     }
 
     private function showPaypalLoginPage():void {
@@ -111,6 +88,7 @@ public class Main extends Sprite {
 
     }
     protected function clearStatus():void{
+        textField = new TextField();
         textField.text = "";
     }
 
