@@ -1,9 +1,7 @@
 package {
-	import org.osmf.layout.HorizontalAlign;
 	import flash.trace.Trace;
 	import starling.display.Stage;
 	import starling.display.DisplayObjectContainer;
-	import com.adobe.utils.NumberFormatter;
   
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.AnchorLayout;
