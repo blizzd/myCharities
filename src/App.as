@@ -1,10 +1,22 @@
 package {
+	import flashx.textLayout.formats.VerticalAlign;
+	import com.adobe.utils.NumberFormatter;
+	import org.osmf.layout.HorizontalAlign;
+  
+	import feathers.layout.AnchorLayoutData;
+	import feathers.layout.AnchorLayout;
+	import feathers.layout.HorizontalLayoutData;
+	import feathers.layout.HorizontalLayout;
+	import feathers.controls.renderers.LayoutGroupGroupedListHeaderOrFooterRenderer;
+	import feathers.controls.LayoutGroup;
 	import starling.display.Sprite;
+	import starling.display.Quad;
 	import starling.text.TextField;
 	import feathers.controls.Button;
 	import feathers.controls.Callout;
 	import feathers.controls.Label;
 	import feathers.themes.MinimalMobileTheme;
+	import feathers.layout.VerticalLayout;
 
 	import starling.events.Event;
 	
@@ -18,21 +30,34 @@ package {
 			this.addEventListener( Event.ADDED_TO_STAGE, addedToStageHandler );
 		}
 		
-		protected var button:Button;
+
+		private var optionsHeight:Number;
+		private var optionsBar:OptionsBar;
  
 		protected function addedToStageHandler( event:Event ):void
 		{
 			new MinimalMobileTheme();
-			this.button = new Button();
-			this.button.label = "Connect to Paypal";
-			this.button.addEventListener( Event.TRIGGERED, button_triggered);
+			optionsHeight = stage.stageHeight/10;
+			setBackground();
+			optionsBar = new OptionsBar();
+			optionsBar.init(stage, optionsHeight);
 			
-			this.addChild( button );
+			this.addChild( optionsBar );	
+			//addChild(container);
+			
+			
+			
 		}
 		
-		private function button_triggered(e:Event):void
+		private function setBackground():void
 		{
-			//Hookup paypal in here
+			var quad:Quad = new Quad( stage.stageWidth, optionsHeight, 0x7eff8c );
+			var quad2:Quad = new Quad( stage.stageWidth, stage.stageHeight - optionsHeight, 0xc0c0c0 );
+			quad2.y = optionsHeight;
+   			addChild( quad );
+			addChild( quad2 );
 		}
+		
+		
 	}
 }
