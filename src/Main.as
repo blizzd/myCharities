@@ -30,6 +30,7 @@ public class Main extends Sprite {
 
     public function Main() {
 		_starling = new Starling(App, stage);
+		
         initPaypal();
 	}
 
