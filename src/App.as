@@ -1,5 +1,6 @@
 package {
-import blizz.serverCommLayer.models.UserDataModel;
+import starling.display.DisplayObjectContainer;
+
 
 import feathers.themes.MinimalMobileTheme;
 
@@ -7,6 +8,7 @@ import starling.display.Quad;
 import starling.display.Sprite;
 import starling.events.Event;
 import starling.text.TextField;
+import feathers.controls.LayoutGroup;
 
 /**
 	 * @author Bronko & @blizzd
@@ -21,6 +23,8 @@ import starling.text.TextField;
 
 		private var optionsHeight:Number;
 		private var optionsBar:OptionsBar;
+		private var _homeScreen:HomeScreen;
+		private var _currentScreen:LayoutGroup;
 		protected var textField:TextField;
  
 		protected function addedToStageHandler( event:Event ):void
@@ -31,18 +35,25 @@ import starling.text.TextField;
 			optionsBar = new OptionsBar();
 			optionsBar.init(stage, optionsHeight);
 			
+			_homeScreen = new HomeScreen();
+			_homeScreen.init(stage);
+			
 			this.addChild( optionsBar );	
-			//addChild(container);
+			
+			setScreen(_homeScreen);
 
-            this.textField = new TextField(100,100,"");
-            this.textField.autoScale = true;
-            this.textField.text = "Hello " + UserDataModel.currentUser + " !";
-
-            this.stage.addChild(textField);
+           
 
 			this.addChild( optionsBar );
 		}
 		
+		private function setScreen(screen:LayoutGroup):void
+		{
+			removeChild(_currentScreen);
+			screen.width = stage.stageWidth;
+			screen.height = stage.stageHeight - optionsHeight;
+			addChild(screen);
+		}
 		private function setBackground():void
 		{
 			var quad:Quad = new Quad( stage.stageWidth, optionsHeight, 0x7eff8c );

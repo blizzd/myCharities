@@ -29,9 +29,10 @@ public class Main extends Sprite {
     public var reusableLoader:URLLoader;
 
     public function Main() {
-        _starling = new Starling(App, stage);
-        initPaypal();
-    }
+		_starling = new Starling(App, stage);
+		showAppForUser("Mister Fab");
+        //initPaypal();
+	}
 
     protected function initPaypal():void {
         reusableRequest = new URLRequest();
