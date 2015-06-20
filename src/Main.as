@@ -24,18 +24,18 @@ import starling.core.Starling;
 public class Main extends Sprite {
 
     public var textField:TextField;
-	private var _starling:Starling;
-	public var reusableRequest:URLRequest;
+    private var _starling:Starling;
+    public var reusableRequest:URLRequest;
     public var reusableLoader:URLLoader;
 
     public function Main() {
-		_starling = new Starling(App, stage);
+        _starling = new Starling(App, stage);
         initPaypal();
-	}
+    }
 
     protected function initPaypal():void {
         reusableRequest = new URLRequest();
-        reusableRequest.url = "http://my-charities-server.herokuapp.com/authenticate";
+        reusableRequest.url = "http://my-charities-server.herokuapp.com/update";
         reusableRequest.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
         reusableRequest.method = URLRequestMethod.GET;
         reusableLoader = new URLLoader();
@@ -44,8 +44,8 @@ public class Main extends Sprite {
         reusableLoader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
         reusableLoader.load(reusableRequest);
-       // showAppForUser("Mister Fab");
-         //showPaypalLoginPage();
+        // showAppForUser("Mister Fab");
+        //showPaypalLoginPage();
     }
 
     private function notFound(event:IOErrorEvent):void {
@@ -58,19 +58,21 @@ public class Main extends Sprite {
         addChild(textField);
     }
 
-    protected function initPaypalComplete(event:Event):void
-    {
-        var myResults:Array=com.adobe.serialization.json.JSON.decode(event.target.data);
-        setStatus(myResults.join());
-
-        if (myResults[0] == "new")
-        {
-           showPaypalLoginPage();
+    protected function initPaypalComplete(event:Event):void {
+        if ((event.target.data as String).indexOf("<") == 0) {
+            showPaypalLoginPage(event.target.data);
         }
-        else
-        if (myResults[0] == "existing")
-        {
-           showAppForUser(myResults[1] as String);
+        else {
+            var myResults:Array = com.adobe.serialization.json.JSON.decode(event.target.data);
+            trace(myResults);
+            setStatus(myResults.join());
+
+            if (myResults[0] == "new") {
+                showPaypalLoginPage();
+            }
+            else if (myResults[0] == "existing") {
+                showAppForUser(myResults[1] as String);
+            }
         }
     }
 
@@ -79,13 +81,17 @@ public class Main extends Sprite {
         UserDataModel.currentUser = myResult;
     }
 
-    private function showPaypalLoginPage():void {
+    private function showPaypalLoginPage(resultPage:String = null):void {
         var ppLoginPAgeView:StageWebView = new StageWebView();
-        ppLoginPAgeView.viewPort = new Rectangle( 0, 0, this.stage.stageWidth, this .stage.stageHeight);
+        ppLoginPAgeView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
         ppLoginPAgeView.stage = this.stage;
         ppLoginPAgeView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onUserLoginAttempt);
-        ppLoginPAgeView.loadURL("http://sandbox.paypal.com/login");
-
+        if (resultPage) {
+            ppLoginPAgeView.loadString(resultPage,"text/html");
+        }
+        else {
+            ppLoginPAgeView.loadURL("http://sandbox.paypal.com/login");
+        }
     }
 
     private function onUserLoginAttempt(event:LocationChangeEvent):void {
@@ -96,13 +102,14 @@ public class Main extends Sprite {
         trace(location);
     }
 
-    protected function setStatus(msg:String):void{
+    protected function setStatus(msg:String):void {
 
         textField.text = msg;
         addChild(textField);
 
     }
-    protected function clearStatus():void{
+
+    protected function clearStatus():void {
         textField = new TextField();
         textField.text = "";
     }
