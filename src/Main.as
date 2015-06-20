@@ -1,7 +1,6 @@
 package {
 
 
-import com.adobe.serialization.json;
 import com.adobe.serialization.json.JSON;
 
 import flash.display.Sprite;
@@ -14,12 +13,17 @@ import flash.net.URLRequestHeader;
 import flash.net.URLRequestMethod;
 import flash.text.TextField;
 
+import starling.core.Starling;
+
 public class Main extends Sprite {
 
     public var textField:TextField;
+	private var _starling:Starling;
 
     public function Main() {
-        textField = new TextField();
+		_starling = new Starling(App, stage);
+		_starling.start();
+        /* textField = new TextField();
         var request:URLRequest = new URLRequest();
         request.url = "";
         request.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
@@ -29,7 +33,7 @@ public class Main extends Sprite {
         loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, notAllowed);
         loader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
-        loader.load(request);
+        loader.load(request);*/
     }
 
     private function notFound(event:IOErrorEvent):void {
