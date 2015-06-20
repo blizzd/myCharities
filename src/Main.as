@@ -1,6 +1,10 @@
 package {
 
 
+
+import blizz.presentationLayer.signals.UserEvent;
+import blizz.presentationLayer.views.FeathersAppPage;
+
 import com.adobe.serialization.json.JSON;
 
 import flash.display.Sprite;
@@ -13,12 +17,17 @@ import flash.net.URLRequestHeader;
 import flash.net.URLRequestMethod;
 import flash.text.TextField;
 
+
 import starling.core.Starling;
+import starling.events.EventDispatcher;
+
 
 public class Main extends Sprite {
 
     public var textField:TextField;
 	private var _starling:Starling;
+	public var reusableRequest:URLRequest;
+    public var reusableLoader:URLLoader;
 
     public function Main() {
 		_starling = new Starling(App, stage);
@@ -34,6 +43,26 @@ public class Main extends Sprite {
         loader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
         loader.load(request);*/
+	}
+	
+ 
+
+    public function OtherMain():void {
+        textField = new TextField();
+        initPaypal();
+    }
+
+    protected function initPaypal():void {
+        reusableRequest = new URLRequest();
+        reusableRequest.url = "https://my-charities-server.herokuapp.com/";
+        reusableRequest.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
+        reusableRequest.method = URLRequestMethod.GET;
+        reusableLoader = new URLLoader();
+        reusableLoader.addEventListener(Event.COMPLETE, initPaypalComplete);
+        reusableLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, notAllowed);
+        reusableLoader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
+        clearStatus();
+        reusableLoader.load(reusableRequest);
     }
 
     private function notFound(event:IOErrorEvent):void {
@@ -45,9 +74,34 @@ public class Main extends Sprite {
         textField.text = event.toString();
         addChild(textField);
     }
-    protected function receive(event:Event):void
+
+    protected function initPaypalComplete(event:Event):void
     {
         var myResults:Array=com.adobe.serialization.json.JSON.decode(event.target.data);
+        setStatus(myResults.join());
+
+        if (myResults[0] == "new")
+        {
+           showPaypalLoginPage();
+        }
+        else
+        if (myResults[0] == "existing")
+        {
+           showAppForUser(myResults[1] as String);
+        }
+    }
+
+    private function showAppForUser(myResult:String):void {
+        var feathersAppPage:FeathersAppPage = new FeathersAppPage( myResult );
+        feathersAppPage.addEventListener(UserEvent.USER_LOADED, onUserCompletedAppLoad);
+    }
+
+    private function onUserCompletedAppLoad(event:UserEvent):void {
+        //add event.target to starlingLayer
+    }
+
+    private function showPaypalLoginPage():void {
+        //show WebView, and then wait for results there
     }
 
     protected function setStatus(msg:String):void{
@@ -59,8 +113,6 @@ public class Main extends Sprite {
     protected function clearStatus():void{
         textField.text = "";
     }
-
-
 
 
 }
