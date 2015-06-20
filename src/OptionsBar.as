@@ -1,10 +1,9 @@
 package {
+	import org.osmf.layout.HorizontalAlign;
 	import flash.trace.Trace;
 	import starling.display.Stage;
 	import starling.display.DisplayObjectContainer;
-		import flashx.textLayout.formats.VerticalAlign;
 	import com.adobe.utils.NumberFormatter;
-	import org.osmf.layout.HorizontalAlign;
   
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.AnchorLayout;
@@ -42,8 +41,8 @@ package {
 			var layout:HorizontalLayout = new HorizontalLayout();
 			width = _myStage.stageWidth;
 			height = optionsHeight;
-			layout.horizontalAlign = HorizontalAlign.CENTER;
-			layout.verticalAlign = VerticalAlign.MIDDLE;
+			layout.horizontalAlign = HorizontalLayout.HORIZONTAL_ALIGN_CENTER;
+			layout.verticalAlign = HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
 			this.layout = layout;
 
 			generateButtons();
