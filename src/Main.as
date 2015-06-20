@@ -1,43 +1,49 @@
 package {
 
-import com.pnwrain.flashsocket.FlashSocket;
-import com.pnwrain.flashsocket.events.FlashSocketEvent;
 
-import feathers.controls.Alert;
+import com.adobe.serialization.json;
+import com.adobe.serialization.json.JSON;
 
 import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.IOErrorEvent;
+import flash.events.SecurityErrorEvent;
+import flash.net.URLLoader;
+import flash.net.URLRequest;
+import flash.net.URLRequestHeader;
+import flash.net.URLRequestMethod;
 import flash.text.TextField;
 
 public class Main extends Sprite {
 
-    public var socket:FlashSocket;
     public var textField:TextField;
 
     public function Main() {
         textField = new TextField();
-        socket = new FlashSocket("localhost:8080");
-        socket.addEventListener(FlashSocketEvent.CONNECT, onConnect);
-        socket.addEventListener(FlashSocketEvent.MESSAGE, onMessage);
-        socket.addEventListener(FlashSocketEvent.IO_ERROR, onError);
-        socket.addEventListener(FlashSocketEvent.SECURITY_ERROR, onError);
-
-        socket.addEventListener("my other event", myCustomMessageHandler);
-    }
-
-    protected function myCustomMessageHandler(event:FlashSocketEvent):void{
-        Alert.show('we got a custom event!');
-    }
-
-    protected function onConnect(event:FlashSocketEvent):void {
-
+        var request:URLRequest = new URLRequest();
+        request.url = "";
+        request.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
+        request.method = URLRequestMethod.GET;
+        var loader:URLLoader = new URLLoader();
+        loader.addEventListener(Event.COMPLETE, receive);
+        loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, notAllowed);
+        loader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
-
+        loader.load(request);
     }
 
-    protected function onError(event:FlashSocketEvent):void {
+    private function notFound(event:IOErrorEvent):void {
+        textField.text = event.toString();
+        addChild(textField);
+    }
 
-        setStatus("something went wrong");
-
+    private function notAllowed(event:SecurityErrorEvent):void {
+        textField.text = event.toString();
+        addChild(textField);
+    }
+    protected function receive(event:Event):void
+    {
+        var myResults:Array=com.adobe.serialization.json.JSON.decode(event.target.data);
     }
 
     protected function setStatus(msg:String):void{
@@ -47,16 +53,9 @@ public class Main extends Sprite {
 
     }
     protected function clearStatus():void{
-
         textField.text = "";
     }
 
-    protected function onMessage(event:FlashSocketEvent):void{
-
-        trace('we got message: ' + event.data);
-        socket.send({msgdata: event.data},"my other event");
-
-    }
 
 
 
