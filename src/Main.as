@@ -31,7 +31,7 @@ public class Main extends Sprite {
 	}
 
     protected function initPaypal():void {
-        reusableRequest = new URLRequest();
+       /* reusableRequest = new URLRequest();
         reusableRequest.url = "https://my-charities-server.herokuapp.com/";
         reusableRequest.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
         reusableRequest.method = URLRequestMethod.GET;
@@ -40,8 +40,8 @@ public class Main extends Sprite {
         reusableLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, notAllowed);
         reusableLoader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
-        reusableLoader.load(reusableRequest);
-        //showAppForUser("Mister Fab");
+        reusableLoader.load(reusableRequest);*/
+        showAppForUser("Mister Fab");
     }
 
     private function notFound(event:IOErrorEvent):void {
