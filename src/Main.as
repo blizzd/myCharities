@@ -96,6 +96,7 @@ public class Main extends Sprite {
         }
     }
 
+
     private function onUserLoginAttempt(event:LocationChangeEvent):void {
         handlePPLoginParams(event.location);
     }
@@ -104,9 +105,14 @@ public class Main extends Sprite {
         trace(location);
         ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
         ppLoginPageView.stage = this.stage;
-        if (location.search("") > -1)
+
+        if (location.search("verification_code=") > -1)
         {
-          ;
+            ppLoginPageView.stop();
+            ppLoginPageView.stage = null;
+            ppLoginPageView = null;
+            //DISPLAY USER'S CHARITYES!
+            //getCurrentUserCharities
         }
     }
 
