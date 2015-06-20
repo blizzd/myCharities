@@ -12,7 +12,6 @@ import flash.events.LocationChangeEvent;
 import flash.events.SecurityErrorEvent;
 import flash.geom.Rectangle;
 import flash.media.StageWebView;
-import flash.media.StageWebViewImpl;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
 import flash.net.URLRequestHeader;
