@@ -1,4 +1,5 @@
 package Screens {
+	import feathers.controls.popups.DropDownPopUpContentManager;
 	import Elements.ButtonItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
@@ -33,55 +34,73 @@ package Screens {
 	public class ManageCharitiesScreen extends AppScreen
 	{
 	
+		private var _dropManager:DropDownPopUpContentManager;	
 		private var _myStage:Stage;
+		private var _charityList:Vector.<Object>;
+		private var _charityButtonList:List;
 			
 		public override function init(stage:Stage):void
 		{
+			_charityList = new Vector.<Object>();
 			_myStage = stage;
+			_dropManager = new DropDownPopUpContentManager();
 			
-			var container:List = new List();
+			_charityButtonList = new List();
 			var layout:VerticalLayout = new VerticalLayout();
 			layout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_LEFT;
 			layout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_TOP;
 			this.layout = layout;
-			container.layout = layout;
+			_charityButtonList.layout = layout;
 			
-			container.width = _myStage.width;
-			container.height = _myStage.stageHeight/2.5;
+			_charityButtonList.width = _myStage.width;
+			_charityButtonList.height = _myStage.stageHeight/2.5;
 			
-			var charities:ListCollection = new ListCollection(
-			[
-  			    new ListButton(_myStage, "test" + " " + "5%"),
-				new ListButton(_myStage, "test" + " " + "5%"),
-				new ListButton(_myStage, "test" + " " + "5%"),
-				new ListButton(_myStage, "test" + " " + "5%"),
-				new ListButton(_myStage, "test" + " " + "5%"),
-				new ListButton(_myStage, "test" + " " + "5%"),
-				new ListButton(_myStage, "tedffdst" + " " + "5%"),
-				new ListButton(_myStage, "test" + " " + "5%"),
-				new ListButton(_myStage, "test" + " " + "5%")
-			  
-			]);
+			var charities:Vector.<Object> = new Vector.<Object>();
+			charities.push(  {text:"Test", percent:5});
+			charities.push(  {text:"Test", percent:5});
+			charities.push(  {text:"Test", percent:5});
+			charities.push(  {text:"Test", percent:5});
+			charities.push(  {text:"ererer", percent:25});
+			charities.push(  {text:"Test", percent:5});
+			charities.push(  {text:"Test", percent:5});
+			charities.push(  {text:"Test", percent:5});
+			charities.push(  {text:"Test", percent:5});
 			
-			container.addEventListener(Event.CHANGE, selectListener);
-			container.typicalItem = new ButtonItemRenderer();
-			container.itemRendererFactory = function():IListItemRenderer
+			
+			
+			
+			_charityButtonList.typicalItem = new ButtonItemRenderer();
+			_charityButtonList.itemRendererFactory = function():IListItemRenderer
 			{
     		var renderer:ButtonItemRenderer = new ButtonItemRenderer();
     		return renderer;
 			};
-			container.dataProvider = charities;
+			initList(charities);
 			
-			addChild(container);
+			
+			addChild(_charityButtonList);
 
 			generateHeader();
+		}
+		
+		public function initList(entries:Vector.<Object>)
+		{
+			_charityList = entries;
+			_charityButtonList.removeEventListener(Event.CHANGE, selectListener);
+			var charities:ListCollection = new ListCollection();
+			for each (var obj : Object in entries) 
+			{
+				charities.push(new ListButton(_myStage, obj.text + " " + obj.percent + "%"));
+			}
+			_charityButtonList.dataProvider = charities;
+			_charityButtonList.addEventListener(Event.CHANGE, selectListener);
 		}
 		
 		private function selectListener(e:Event):void
 		{
 			var target:List = (e.currentTarget as List);
 			target.removeEventListener(Event.CHANGE, selectListener);
-			var selected:String = (target.selectedItem as ListButton).text;
+			var selected:Object = _charityList[target.selectedIndex];
 			target.selectedIndex = -1;
 			target.addEventListener(Event.CHANGE, selectListener);
 		}
