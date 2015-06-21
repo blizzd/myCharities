@@ -1,4 +1,6 @@
 package Screens {
+	import starling.display.Image;
+	import starling.textures.Texture;
 	import Elements.CharityDetailDropDown;
 	import feathers.controls.popups.DropDownPopUpContentManager;
 	import Elements.ButtonItemRenderer;
@@ -35,6 +37,9 @@ package Screens {
 	public class ManageCharitiesScreen extends AppScreen
 	{
 	
+		[Embed(source="../Graphics/Add.png")]
+				public static const Add:Class;
+				
 		private var _dropManager:DropDownPopUpContentManager;	
 		public var MyStage:Stage;
 		private var _charityList:Vector.<Object>;
@@ -126,11 +131,12 @@ package Screens {
 		
 		private function generateHeader():void
 		{
-			var textField:TextField = new TextField(100,100,"");
-            textField.autoScale = true;
-            textField.text = "Set up your charities";
+			var texture:Texture = Texture.fromBitmap(new Add());
+ 			var button:Image= new Image(texture);
+			button.scaleX = button.scaleY = 0.4;
+			button.pivotX -= MyStage.width - button.width;
+			addChild(button);
 
-            addChild(textField);
 		}	
 	}
 }
