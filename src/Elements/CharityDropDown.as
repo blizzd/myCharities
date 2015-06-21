@@ -15,9 +15,11 @@ package Elements {
 	{
 		private var _root:LayoutGroup;
 		private var manager:DropDownPopUpContentManager;
+		private var _parent:OptionsBar;
 		
-		public function CharityDropDown(man:DropDownPopUpContentManager)
+		public function CharityDropDown(man:DropDownPopUpContentManager, parent:OptionsBar)
 		{
+			_parent = parent;
 			super();
 			layout = new VerticalLayout();
 			manager = man;
@@ -42,6 +44,15 @@ package Elements {
 		{
 			manager.close();
 			var buttonText:String = (e.target as Button).name;
+			
+			if (buttonText == "chars")
+			{
+				_parent.app.setScreen(_parent.charitiesScreen);
+			}
+			else if (buttonText == "don")
+			{
+				_parent.app.setScreen(_parent.donationScreen);
+			}
 		}
 		
 	}

@@ -46,20 +46,21 @@ package {
 				private var _braggingButton:Button;
 				private var _helpButton:Button;
 				private var _myStage:Stage;
-				private var _app:App;
 				
-				private var _homeScreen:HomeScreen;
-				private var _donationScreen:ManageDonationsScreen;
-				private var _charitiesScreen:ManageCharitiesScreen;
-				private var _settingsScreen:SettingsScreen;
-				private var _helpScreen:HelpScreen;
-				private var _bragScreen:BragScreen;
+				public var app:App;
+				
+				public var homeScreen:HomeScreen;
+				public var donationScreen:ManageDonationsScreen;
+				public var charitiesScreen:ManageCharitiesScreen;
+				public var settingsScreen:SettingsScreen;
+				public var helpScreen:HelpScreen;
+				public var bragScreen:BragScreen;
 				
 		public function init(application:App, optionsHeight:Number):void
 		{
 			_dropManager = new DropDownPopUpContentManager();
 			_myStage = application.stage;
-			_app = application;
+			app = application;
 			
 			var layout:HorizontalLayout = new HorizontalLayout();
 			width = _myStage.stageWidth;
@@ -70,25 +71,25 @@ package {
 
 			generateButtons();
 			initScreens();
-			_app.setScreen(_homeScreen);
+			app.setScreen(homeScreen);
 
 			
 		}
 		
 		private function initScreens():void
 		{
-			_homeScreen = new HomeScreen();
-			_homeScreen.init(_myStage);
-			_settingsScreen = new SettingsScreen();
-			_settingsScreen.init(_myStage);
-			_donationScreen = new ManageDonationsScreen();
-			_donationScreen.init(_myStage);
-			_bragScreen = new BragScreen();
-			_bragScreen.init(_myStage);
-			_charitiesScreen = new ManageCharitiesScreen();
-			_charitiesScreen.init(_myStage);
-			_helpScreen = new HelpScreen();	
-			_helpScreen.init(_myStage);
+			homeScreen = new HomeScreen();
+			homeScreen.init(_myStage);
+			settingsScreen = new SettingsScreen();
+			settingsScreen.init(_myStage);
+			donationScreen = new ManageDonationsScreen();
+			donationScreen.init(_myStage);
+			bragScreen = new BragScreen();
+			bragScreen.init(_myStage);
+			charitiesScreen = new ManageCharitiesScreen();
+			charitiesScreen.init(_myStage);
+			helpScreen = new HelpScreen();	
+			helpScreen.init(_myStage);
 		}
 		
 		private function generateButtons():void
@@ -168,7 +169,7 @@ package {
 			var button:Button = e.target as Button;
 			if (button.name == "Home")
 			{
-				_app.setScreen(_homeScreen);
+				app.setScreen(homeScreen);
 			} 
 			else if (button.name == "Brag")
 			{
@@ -186,33 +187,29 @@ package {
 			{
 				popHelp();
 			}
-			else if (button.name == "Char")
-			{
-				_app.setScreen(_charitiesScreen);
-			}
 		}
 		
 		private function popSettings():void
 		{
-			var popContent:SettingsDropDown = new SettingsDropDown(_dropManager);
+			var popContent:SettingsDropDown = new SettingsDropDown(_dropManager, this);
 			 _dropManager.open(popContent, _settingsButton);
 		}
 		
 		private function popCharity():void
 		{
-			var popContent:CharityDropDown = new CharityDropDown(_dropManager);
+			var popContent:CharityDropDown = new CharityDropDown(_dropManager, this);
 			 _dropManager.open(popContent, _donationButton);
 		}
 		
 		private function popBrag():void
 		{
-			var popContent:BraggingDropDown = new BraggingDropDown(_dropManager);
+			var popContent:BraggingDropDown = new BraggingDropDown(_dropManager, this);
 			 _dropManager.open(popContent, _braggingButton);
 		}
 		
 		private function popHelp():void
 		{
-			var popContent:HelpDropDown = new HelpDropDown(_dropManager);
+			var popContent:HelpDropDown = new HelpDropDown(_dropManager, this);
 			 _dropManager.open(popContent, _helpButton);
 		}
 		

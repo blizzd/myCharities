@@ -15,9 +15,11 @@ package Elements {
 	{
 		private var _root:LayoutGroup;
 		private var manager:DropDownPopUpContentManager;
+	    private var _parent:OptionsBar;
 		
-		public function HelpDropDown(man:DropDownPopUpContentManager)
+		public function HelpDropDown(man:DropDownPopUpContentManager, parent:OptionsBar)
 		{
+			_parent = parent;
 			super();
 			layout = new VerticalLayout();
 			manager = man;
