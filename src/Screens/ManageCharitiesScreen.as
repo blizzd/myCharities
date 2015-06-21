@@ -36,14 +36,14 @@ package Screens {
 	{
 	
 		private var _dropManager:DropDownPopUpContentManager;	
-		private var _myStage:Stage;
+		public var MyStage:Stage;
 		private var _charityList:Vector.<Object>;
 		private var _charityButtonList:List;
 			
 		public override function init(stage:Stage):void
 		{
 			_charityList = new Vector.<Object>();
-			_myStage = stage;
+			MyStage = stage;
 			_dropManager = new DropDownPopUpContentManager();
 			
 			_charityButtonList = new List();
@@ -53,8 +53,8 @@ package Screens {
 			this.layout = layout;
 			_charityButtonList.layout = layout;
 			
-			_charityButtonList.width = _myStage.width;
-			_charityButtonList.height = _myStage.stageHeight/2.5;
+			_charityButtonList.width = MyStage.width;
+			_charityButtonList.height = MyStage.stageHeight/2.5;
 			
 			var charities:Vector.<Object> = new Vector.<Object>();
 			charities.push(  {text:"Test", percent:5});
@@ -89,7 +89,7 @@ package Screens {
 			var charities:ListCollection = new ListCollection();
 			for each (var obj : Object in entries) 
 			{
-				charities.push(new ListButton(_myStage, obj.text + " " + obj.percent + "%"));
+				charities.push(new ListButton(MyStage, obj.text + " " + obj.percent + "%"));
 			}
 			_charityButtonList.dataProvider = charities;
 			_charityButtonList.addEventListener(Event.CHANGE, selectListener);

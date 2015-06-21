@@ -1,4 +1,7 @@
 package Screens {
+	import Elements.ListButton;
+	import Elements.ButtonItemRenderer;
+	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.controls.List;
 	import starling.display.Image;
@@ -40,6 +43,8 @@ package Screens {
 		private var _root:LayoutGroup;
 		private var _header:LayoutGroup;
 		private var _topOffset:Number = 35;
+		
+		private var _transactions:List;
 			
 		public override function init(stage:Stage):void
 		{
@@ -81,9 +86,6 @@ package Screens {
 			 textField.text = text;
 			 textField.pivotX -= 50;
 			 
-			 
-			
-			 
 			_root.addChild(bg);
             _header.addChild(textField);
 			
@@ -109,20 +111,37 @@ package Screens {
 			 textField.text = "Recent Donations:";
 			 textField.pivotY -= 5;
 			 _root.addChild(textField);
+			 _root.width = _myStage.width-20;
 			 
-			var list:List = new List();
-			var recentDonations:ListCollection = new ListCollection(
-			[
-  			  { text: "Ebay " + "0,30 Euro" },
-  			  { text: "SteamApp " + "1 Euro" },
-    		  { text: "Google Play " + "0,42 Euro"  },
-  			  { text: "battle.net " + "0,33 Euro" },
-			]);
-			list.dataProvider = recentDonations;
-			list.pivotY -= 20;
-			list.itemRendererProperties.labelField = "text";
-			list.isSelectable =false;
-			_root.addChild(list);
+			_transactions = new List();
+			_transactions.width = _myStage.width-20;
+			_transactions.height = _myStage.height/3;
+			var recentDonations:Vector.<Object> = new Vector.<Object>();
+			recentDonations.push({ value: "Ebay " + "0,30 Euro" });
+  			recentDonations.push({ value: "Ebay " + "0,30 Euro" });
+			recentDonations.push({ value: "Ebay " + "0,30 Euro" });
+			recentDonations.push({ value: "Ebay " + "0,30 Euro" });
+  			
+			_transactions.itemRendererFactory = function():IListItemRenderer
+			{
+    		var renderer:ButtonItemRenderer = new ButtonItemRenderer();
+    		return renderer;
+			};
+			
+			_transactions.pivotY -= 20;
+			_transactions.isSelectable =false;
+			initList(recentDonations);
+			_root.addChild(_transactions);
+		}
+		
+		public function initList(entries:Vector.<Object>)
+		{
+			var charities:ListCollection = new ListCollection();
+			for each (var obj : Object in entries) 
+			{
+				charities.push(new ListButton(_myStage, obj.value));
+			}
+			_transactions.dataProvider = charities;
 		}
 	}
 }
