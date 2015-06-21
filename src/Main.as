@@ -70,25 +70,21 @@ public class Main extends Sprite {
         ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
         ppLoginPageView.stage = this.stage;
 
-         if (location.search("/users") > -1) {
-             getHtmlSource();
+         if (location.search("/users/") > -1) {
+             getHtmlSource(location);
              ppLoginPageView.stop();
              ppLoginPageView.stage = null;
              ppLoginPageView = null;
-             //DISPLAY USER'S CHARITYES!
-             //getCurrentUserCharities
-             // getTransaction();
+            getTransaction( UserDataModel.currentUserID);
          }
     }
 
-    private function getHtmlSource():void
+    private function getHtmlSource(location:String):void
     {
-        var tempTitle:String = ppLoginPageView.title;
-        ppLoginPageView.loadURL("javascript:document.title = document.getElementsByTagName('html')[0].innerHTML;");
-        var jsonText:String = ppLoginPageView.title;
-        ppLoginPageView.loadURL("javascript:document.title ='" + tempTitle + "';");
-        trace("Title is "+ppLoginPageView.title);
-        trace("JSON with userID is "+jsonText);
+        var i:int = (location.search("/users/"));
+        var userID:String = location.substring(i, location.length);
+        trace("JSON with userID is "+userID);
+        UserDataModel.currentUserID = userID;
     }
 
     protected function getTransaction(userID:String):void {

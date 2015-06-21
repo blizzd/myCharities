@@ -5,6 +5,7 @@ package blizz.serverCommLayer.models {
 public class UserDataModel {
 
     private static var _currentUser:String;
+    private static var _currentUserID:String;
 
     public function UserDataModel() {
 
@@ -16,6 +17,14 @@ public class UserDataModel {
 
     public static function set currentUser(value:String):void {
         _currentUser = value;
+    }
+
+    public static function get currentUserID():String {
+        return _currentUserID;
+    }
+
+    public static function set currentUserID(value:String):void {
+        _currentUserID = value;
     }
 }
 }
