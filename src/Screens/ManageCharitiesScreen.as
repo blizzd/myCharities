@@ -1,4 +1,5 @@
 package Screens {
+	import Elements.CharityDetailDropDown;
 	import feathers.controls.popups.DropDownPopUpContentManager;
 	import Elements.ButtonItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
@@ -103,6 +104,9 @@ package Screens {
 			var selected:Object = _charityList[target.selectedIndex];
 			target.selectedIndex = -1;
 			target.addEventListener(Event.CHANGE, selectListener);
+			
+			var details:CharityDetailDropDown = new CharityDetailDropDown(_dropManager, this, _charityList[target.selectedIndex])
+			_dropManager.open(details, target.selectedItem as ListButton);
 		}
 		
 		private function generateHeader():void
