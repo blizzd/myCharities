@@ -70,7 +70,7 @@ public class Main extends Sprite {
         ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
         ppLoginPageView.stage = this.stage;
 
-         if (location.search("verification_code=") > -1) {
+         if (location.search("/users") > -1) {
              getHtmlSource();
              ppLoginPageView.stop();
              ppLoginPageView.stage = null;
