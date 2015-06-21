@@ -26,6 +26,8 @@ package Elements {
 			_parent = parent;
 			super();
 			manager = man;
+			_root = new LayoutGroup();
+			_root.width = parent.
 			
 			slider = new Slider();
      		slider.minimum = 0;
