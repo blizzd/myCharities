@@ -28,14 +28,14 @@ package Elements {
 			pub.label = "Publishing settings";
 			pub.name = "tour";
 			pub.addEventListener(Event.TRIGGERED, buttonListener);
-			pub.width = 120;
+			pub.width = _parent.width / 3;
 			
 			var social:Button = new Button();
-			social.label = "Manage social\n" +
+			social.label = "Manage social \n" +
 			"networks";
 			social.name = "social";
 			social.addEventListener(Event.TRIGGERED, buttonListener);
-			social.width = 120;
+			social.width = _parent.width / 3;
 
 			addChild(pub);
 			addChild(social);

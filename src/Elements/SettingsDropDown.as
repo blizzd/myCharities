@@ -28,19 +28,20 @@ package Elements {
 			logOut.label = "Log out";
 			logOut.name = "logout";
 			logOut.addEventListener(Event.TRIGGERED, buttonListener);
-			logOut.width = 120;
+			logOut.width = _parent.width / 3;
 			
 			var switchAcc:Button = new Button();
-			switchAcc.label = "Switch PayPal account";
+			switchAcc.label = "Switch PayPal account \n";
 			switchAcc.name = "switch";
 			switchAcc.addEventListener(Event.TRIGGERED, buttonListener);
-			switchAcc.width = 120;
+			switchAcc.width = _parent.width / 3;
 			
 			var remove:Button = new Button();
 			remove.label = "Remove your Paypal\n from MyPay Karma :(";
 			remove.name = "remove";
 			remove.addEventListener(Event.TRIGGERED, buttonListener);
-			remove.width = 120;
+			remove.width = _parent.width / 3;
+
 			
 			
 			

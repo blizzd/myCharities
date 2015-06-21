@@ -28,13 +28,13 @@ package Elements {
 			chars.label = "Your charities";
 			chars.name = "chars";
 			chars.addEventListener(Event.TRIGGERED, buttonListener);
-			chars.width = 120;
+			chars.width = _parent.width / 3;
 			
 			var don:Button = new Button();
 			don.label = "Donation settings";
 			don.name = "don";
 			don.addEventListener(Event.TRIGGERED, buttonListener);
-			don.width = 120;
+			don.width = _parent.width / 3;
 
 			addChild(chars);
 			addChild(don);

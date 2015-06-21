@@ -28,13 +28,13 @@ package Elements {
 			tour.label = "Take tour";
 			tour.name = "tour";
 			tour.addEventListener(Event.TRIGGERED, buttonListener);
-			tour.width = 120;
+			tour.width = _parent.width / 3;
 			
 			var about:Button = new Button();
 			about.label = "About us";
 			about.name = "about";
 			about.addEventListener(Event.TRIGGERED, buttonListener);
-			about.width = 120;
+			about.width = _parent.width / 3;
 
 			addChild(tour);
 			addChild(about);
