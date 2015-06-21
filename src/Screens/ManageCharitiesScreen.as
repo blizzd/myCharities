@@ -1,5 +1,10 @@
 package Screens {
-	import flash.trace.Trace;
+	import Elements.ButtonItemRenderer;
+	import feathers.controls.renderers.IListItemRenderer;
+	import feathers.data.ListCollection;
+	import feathers.controls.List;
+	import Elements.ListButton;
+	import feathers.controls.ScrollContainer;
 	
 	import blizz.serverCommLayer.models.UserDataModel;
 	import starling.display.Stage;
@@ -34,14 +39,54 @@ package Screens {
 		{
 			_myStage = stage;
 			
+			var container:List = new List();
 			var layout:VerticalLayout = new VerticalLayout();
-			layout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_CENTER;
-			layout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_MIDDLE;
+			layout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_LEFT;
+			layout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_TOP;
 			this.layout = layout;
+			container.layout = layout;
+			
+			container.width = _myStage.width;
+			container.height = _myStage.stageHeight/2;
+			
+			var charities:ListCollection = new ListCollection(
+			[
+  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
+  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
+    		  { field: new ListButton(_myStage, "test" + " " + "5%") },
+  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
+			    { field: new ListButton(_myStage, "sgdgdst" + " " + "5%") },
+  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
+    		  { field: new ListButton(_myStage, "test" + " " + "5%") },
+  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
+			    { field: new ListButton(_myStage, "test" + " " + "5%") },
+  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
+    		  { field: new ListButton(_myStage, "test" + " " + "5%") },
+  			  { field: new ListButton(_myStage, "tsfffs" + " " + "5%") }
+			]);
+			
+			container.addEventListener(Event.CHANGE, selectListener);
+			container.typicalItem = new ButtonItemRenderer();
+			container.itemRendererFactory = function():IListItemRenderer
+			{
+    		var renderer:ButtonItemRenderer = new ButtonItemRenderer();
+			renderer.labelField = "field";
+    		return renderer;
+			};
+			container.dataProvider = charities;
+			
+			addChild(container);
 
 			generateHeader();
-
-			
+		}
+		
+		private function selectListener(e:Event):void
+		{
+			var target:List = (e.currentTarget as List);
+			target.removeEventListener(Event.CHANGE, selectListener);
+			var selected:String = (target.selectedItem.field as ListButton).text;
+			target.selectedIndex = -1;
+			target.addEventListener(Event.CHANGE, selectListener);
 		}
 		
 		private function generateHeader():void

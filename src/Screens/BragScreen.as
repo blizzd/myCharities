@@ -29,6 +29,7 @@ package Screens {
 	{
 	
 		private var _myStage:Stage;
+	    private var _myContainer
 			
 		public override function init(stage:Stage):void
 		{
