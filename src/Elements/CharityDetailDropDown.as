@@ -20,9 +20,13 @@ package Elements {
 		private var _parent:ManageCharitiesScreen;
 		private var slider:Slider;
 		
-		public function CharityDetailDropDown(man:DropDownPopUpContentManager, parent:ManageCharitiesScreen, data:Object)
+		private var _oldValue:int;
+		private var _step:int;
+		
+		
+		public function CharityDetailDropDown(man:DropDownPopUpContentManager, parent:ManageCharitiesScreen, data:Object, stepval:int)
 		{
-			
+			_step = stepval;
 			_parent = parent;
 			super();
 			manager = man;
@@ -32,11 +36,13 @@ package Elements {
 			var bg:Quad = new Quad(_root.width, _root.width/1.3, 0x77bbff);
 			_root.addChild(bg);
 			this.slider = new Slider();
-     		slider.minimum = 0;
-   			slider.maximum = 100;
-    		slider.step = 1;
-     		slider.page = 1;
-     		slider.value = data.percent;
+			
+     		slider.minimum = _oldValue % stepval;
+   			slider.maximum = 100 - (_oldValue % stepval);
+			slider.value = data.percent;
+			_oldValue = data.percent;
+    		slider.step = stepval;
+     		
      		slider.addEventListener( Event.CHANGE, onSlide );
 			slider.width = _root.width - 10;
 			slider.y = bg.height - slider.height - 25;
@@ -47,7 +53,9 @@ package Elements {
 		
 		private function onSlide (e:Event):void
 		{
-			
+		
+		
+			_parent.changeSelectedValue(slider.value);
 		}
 		
 
