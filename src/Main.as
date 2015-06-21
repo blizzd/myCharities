@@ -1,6 +1,7 @@
 package {
 
 
+import blizz.presentationLayer.signals.UserEvent;
 import blizz.serverCommLayer.models.UserDataModel;
 
 import com.adobe.serialization.json.JSON;
@@ -38,7 +39,6 @@ public class Main extends Sprite {
         _starling.stage.stageHeight *= screenWidth / _starling.stage.stageWidth;
         _starling.stage.stageWidth  = screenWidth ;
 
-        //showAppForUser("Mister Fab");
         showPaypalLoginPage();
     }
 
@@ -117,9 +117,13 @@ public class Main extends Sprite {
         }
         else {
             var myResults:Array = com.adobe.serialization.json.JSON.decode(event.target.data);
-            trace(myResults);
-            setStatus(myResults.join());
-            //sendResults to List
+            UserDataModel.currentTransactions = new <Object>[];
+
+            for each (var obj:Object in myResults)
+            {
+                UserDataModel.currentTransactions.push(obj);
+            }
+            _starling.stage.dispatchEvent(new UserEvent(UserEvent.TRANSACTIONS_READY, null));
         }
     }
 
