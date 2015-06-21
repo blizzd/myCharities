@@ -29,7 +29,15 @@ public class Main extends Sprite {
     public var ppLoginPageView:StageWebView;
 
     public function Main() {
-        _starling = new Starling(App, stage);
+
+        var screenWidth:int  = stage.fullScreenWidth;
+        var screenHeight:int = stage.fullScreenHeight;
+        var viewPort:Rectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+
+        _starling = new Starling(App, stage, viewPort);
+        _starling.stage.stageHeight *= screenWidth / _starling.stage.stageWidth;
+        _starling.stage.stageWidth  = screenWidth ;
+
         showPaypalLoginPage();
     }
 

@@ -37,11 +37,7 @@ import feathers.controls.LayoutGroup;
 			optionsBar.init(this, optionsHeight);
 	
 			this.addChild( optionsBar );	
-		
 
-           
-
-			this.addChild( optionsBar );
 		}
 		
 		public function setScreen(screen:AppScreen):void
