@@ -1,4 +1,6 @@
 package Elements {
+	import Screens.ManageCharitiesScreen;
+	import feathers.controls.Slider;
 	import starling.events.Event;
 	import feathers.controls.Button;
 	import feathers.layout.VerticalLayout;
@@ -15,14 +17,29 @@ package Elements {
 	{
 		private var _root:LayoutGroup;
 		private var manager:DropDownPopUpContentManager;
-		private var _parent:OptionsBar;
+		private var _parent:ManageCharitiesScreen;
+		private var slider:Slider;
 		
-		public function CharityDetailDropDown(man:DropDownPopUpContentManager, parent:OptionsBar, data:Object)
+		public function CharityDetailDropDown(man:DropDownPopUpContentManager, parent:ManageCharitiesScreen, data:Object)
 		{
+			
 			_parent = parent;
 			super();
 			manager = man;
 			
+			slider = new Slider();
+     		slider.minimum = 0;
+   			slider.maximum = 100;
+    		slider.step = 1;
+     		slider.page = 1;
+     		slider.value = data.percent;
+     		slider.addEventListener( Event.CHANGE, onSlide );
+     		this.addChild( slider );
+			
+		}
+		
+		private function onSlide (e:Event):void
+		{
 			
 		}
 		
