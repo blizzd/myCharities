@@ -68,8 +68,6 @@ package Screens {
 			charities.push(  {text:"Test", percent:5});
 			
 			
-			
-			
 			_charityButtonList.typicalItem = new ButtonItemRenderer();
 			_charityButtonList.itemRendererFactory = function():IListItemRenderer
 			{
@@ -101,12 +99,16 @@ package Screens {
 		{
 			var target:List = (e.currentTarget as List);
 			target.removeEventListener(Event.CHANGE, selectListener);
-			var selected:Object = _charityList[target.selectedIndex];
-			target.selectedIndex = -1;
-			target.addEventListener(Event.CHANGE, selectListener);
+			var test:Object = _charityButtonList.selectedItem;
+			var selected:Object = _charityList[_charityButtonList.selectedIndex];
 			
-			var details:CharityDetailDropDown = new CharityDetailDropDown(_dropManager, this, _charityList[target.selectedIndex])
+			
+			_dropManager.close();
+			var details:CharityDetailDropDown = new CharityDetailDropDown(_dropManager, this, selected);
 			_dropManager.open(details, target.selectedItem as ListButton);
+			target.selectedIndex = -1;
+			target.selectedItem = null;
+			target.addEventListener(Event.CHANGE, selectListener);
 		}
 		
 		private function generateHeader():void
