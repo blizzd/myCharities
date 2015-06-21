@@ -1,4 +1,11 @@
 package {
+	import Elements.HelpDropDown;
+	import Elements.BraggingDropDown;
+	import Elements.CharityDropDown;
+	import Elements.SettingsDropDown;
+	import feathers.controls.popups.DropDownPopUpContentManager;
+	import feathers.core.PopUpManager;
+	import feathers.controls.PickerList;
 	import Screens.BragScreen;
 	import Screens.HelpScreen;
 	import Screens.SettingsScreen;
@@ -31,6 +38,8 @@ package {
 	 */
 	public class OptionsBar extends LayoutGroup
 	{
+				private var _dropManager:DropDownPopUpContentManager;	
+		
 				private var _homeButton:Button;
 				private var _donationButton:Button;
 				private var _settingsButton:Button;
@@ -49,6 +58,7 @@ package {
 				
 		public function init(application:App, optionsHeight:Number):void
 		{
+			_dropManager = new DropDownPopUpContentManager();
 			_myStage = application.stage;
 			_app = application;
 			
@@ -87,8 +97,8 @@ package {
 			_homeButton = generateHome();
 			_donationButton = generateDonation();
 			_charityButton = generateCharity();
-			_settingsButton = generateBragging();
-			_braggingButton = generateSettings();
+			_settingsButton = generateSettings();
+			_braggingButton = generateBragging();
 			_helpButton = generateHelp();
 		}
 		
@@ -156,6 +166,7 @@ package {
 		
 		private function button_triggered(e:Event):void
 		{
+			_dropManager.close();
 			var button:Button = e.target as Button;
 			if (button.name == "Home")
 			{
@@ -163,24 +174,49 @@ package {
 			} 
 			else if (button.name == "Brag")
 			{
-				_app.setScreen(_bragScreen);
+				popBrag();
 			}
 			else if (button.name == "SDonat")
 			{
-				_app.setScreen(_donationScreen);
+				popCharity();
 			}
 			else if (button.name == "Set")
 			{
-				_app.setScreen(_settingsScreen);
+				popSettings();
 			}
 			else if (button.name == "?")
 			{
-				_app.setScreen(_helpScreen);
+				popHelp();
 			}
 			else if (button.name == "Char")
 			{
 				_app.setScreen(_charitiesScreen);
 			}
 		}
+		
+		private function popSettings():void
+		{
+			var popContent:SettingsDropDown = new SettingsDropDown(_dropManager);
+			 _dropManager.open(popContent, _settingsButton);
+		}
+		
+		private function popCharity():void
+		{
+			var popContent:CharityDropDown = new CharityDropDown(_dropManager);
+			 _dropManager.open(popContent, _donationButton);
+		}
+		
+		private function popBrag():void
+		{
+			var popContent:BraggingDropDown = new BraggingDropDown(_dropManager);
+			 _dropManager.open(popContent, _braggingButton);
+		}
+		
+		private function popHelp():void
+		{
+			var popContent:HelpDropDown = new HelpDropDown(_dropManager);
+			 _dropManager.open(popContent, _helpButton);
+		}
+		
 	}
 }
