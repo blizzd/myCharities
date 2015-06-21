@@ -44,7 +44,6 @@ package {
 				private var _donationButton:Button;
 				private var _settingsButton:Button;
 				private var _braggingButton:Button;
-				private var _charityButton:Button;
 				private var _helpButton:Button;
 				private var _myStage:Stage;
 				private var _app:App;
@@ -96,7 +95,6 @@ package {
 		{
 			_homeButton = generateHome();
 			_donationButton = generateDonation();
-			_charityButton = generateCharity();
 			_settingsButton = generateSettings();
 			_braggingButton = generateBragging();
 			_helpButton = generateHelp();
