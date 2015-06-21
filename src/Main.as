@@ -29,13 +29,12 @@ public class Main extends Sprite {
     public var ppLoginPageView:StageWebView;
 
     public function Main() {
-		_starling = new Starling(App, stage);
-		showAppForUser("Mister Fab");
-        //initPaypal();
+        _starling = new Starling(App, stage);
+        showAppForUser("Mister Fab");
         //showPaypalLoginPage();
-	}
+    }
 
-    protected function initPaypal():void {
+    protected function getTransaction():void {
         reusableRequest = new URLRequest();
         reusableRequest.url = "http://my-charities-server.herokuapp.com/update";
         reusableRequest.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
@@ -46,8 +45,7 @@ public class Main extends Sprite {
         reusableLoader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
         reusableLoader.load(reusableRequest);
-        // showAppForUser("Mister Fab");
-        //showPaypalLoginPage();
+        showAppForUser("Mister Fab");
     }
 
     private function notFound(event:IOErrorEvent):void {
@@ -89,7 +87,7 @@ public class Main extends Sprite {
         ppLoginPageView.stage = this.stage;
         ppLoginPageView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onUserLoginAttempt);
         if (resultPage) {
-            ppLoginPageView.loadString(resultPage,"text/html");
+            ppLoginPageView.loadString(resultPage, "text/html");
         }
         else {
             ppLoginPageView.loadURL("http://my-charities-server.herokuapp.com/authenticate");
@@ -106,14 +104,15 @@ public class Main extends Sprite {
         ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
         ppLoginPageView.stage = this.stage;
 
-        if (location.search("verification_code=") > -1)
-        {
-            ppLoginPageView.stop();
-            ppLoginPageView.stage = null;
-            ppLoginPageView = null;
-            //DISPLAY USER'S CHARITYES!
-            //getCurrentUserCharities
-        }
+        /* if (location.search("verification_code=") > -1)
+         {
+         ppLoginPageView.stop();
+         ppLoginPageView.stage = null;
+         ppLoginPageView = null;
+         //DISPLAY USER'S CHARITYES!
+         //getCurrentUserCharities
+         }*/
+
     }
 
     protected function setStatus(msg:String):void {
