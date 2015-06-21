@@ -30,13 +30,62 @@ public class Main extends Sprite {
 
     public function Main() {
         _starling = new Starling(App, stage);
-        showAppForUser("Mister Fab");
-        //showPaypalLoginPage();
+        showPaypalLoginPage();
     }
 
-    protected function getTransaction():void {
+    private function showAppForUser(myResult:String):void {
+        _starling.start();
+        UserDataModel.currentUser = myResult;
+    }
+
+    private function showPaypalLoginPage(resultPage:String = null):void {
+        ppLoginPageView = new StageWebView();
+        ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+        ppLoginPageView.stage = this.stage;
+        ppLoginPageView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onUserLoginAttempt);
+        if (resultPage) {
+            ppLoginPageView.loadString(resultPage, "text/html");
+        }
+        else {
+            showAppForUser("Mister Fab");
+            ppLoginPageView.loadURL("http://my-charities-server.herokuapp.com/authenticate");
+        }
+    }
+
+
+    private function onUserLoginAttempt(event:LocationChangeEvent):void {
+        handlePPLoginParams(event.location);
+    }
+
+    private function handlePPLoginParams(location:String):void {
+        trace(location);
+        ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+        ppLoginPageView.stage = this.stage;
+
+         if (location.search("verification_code=") > -1) {
+             getHtmlSource();
+             ppLoginPageView.stop();
+             ppLoginPageView.stage = null;
+             ppLoginPageView = null;
+             //DISPLAY USER'S CHARITYES!
+             //getCurrentUserCharities
+             // getTransaction();
+         }
+    }
+
+    private function getHtmlSource():void
+    {
+        var tempTitle:String = ppLoginPageView.title;
+        ppLoginPageView.loadURL("javascript:document.title = document.getElementsByTagName('html')[0].innerHTML;");
+        var jsonText:String = ppLoginPageView.title;
+        ppLoginPageView.loadURL("javascript:document.title ='" + tempTitle + "';");
+        trace("Title is "+ppLoginPageView.title)
+
+    }
+
+    protected function getTransaction(userID:String):void {
         reusableRequest = new URLRequest();
-        reusableRequest.url = "http://my-charities-server.herokuapp.com/update";
+        reusableRequest.url = "http://my-charities-server.herokuapp.com/transactions/"+ userID+ "";
         reusableRequest.requestHeaders = [new URLRequestHeader("Content-Type", "application/json")];
         reusableRequest.method = URLRequestMethod.GET;
         reusableLoader = new URLLoader();
@@ -45,7 +94,6 @@ public class Main extends Sprite {
         reusableLoader.addEventListener(IOErrorEvent.IO_ERROR, notFound);
         clearStatus();
         reusableLoader.load(reusableRequest);
-        showAppForUser("Mister Fab");
     }
 
     private function notFound(event:IOErrorEvent):void {
@@ -66,53 +114,8 @@ public class Main extends Sprite {
             var myResults:Array = com.adobe.serialization.json.JSON.decode(event.target.data);
             trace(myResults);
             setStatus(myResults.join());
-
-            if (myResults[0] == "new") {
-                showPaypalLoginPage();
-            }
-            else if (myResults[0] == "existing") {
-                showAppForUser(myResults[1] as String);
-            }
+            //sendResults to List
         }
-    }
-
-    private function showAppForUser(myResult:String):void {
-        _starling.start();
-        UserDataModel.currentUser = myResult;
-    }
-
-    private function showPaypalLoginPage(resultPage:String = null):void {
-        ppLoginPageView = new StageWebView();
-        ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
-        ppLoginPageView.stage = this.stage;
-        ppLoginPageView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onUserLoginAttempt);
-        if (resultPage) {
-            ppLoginPageView.loadString(resultPage, "text/html");
-        }
-        else {
-            ppLoginPageView.loadURL("http://my-charities-server.herokuapp.com/authenticate");
-        }
-    }
-
-
-    private function onUserLoginAttempt(event:LocationChangeEvent):void {
-        handlePPLoginParams(event.location);
-    }
-
-    private function handlePPLoginParams(location:String):void {
-        trace(location);
-        ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
-        ppLoginPageView.stage = this.stage;
-
-        /* if (location.search("verification_code=") > -1)
-         {
-         ppLoginPageView.stop();
-         ppLoginPageView.stage = null;
-         ppLoginPageView = null;
-         //DISPLAY USER'S CHARITYES!
-         //getCurrentUserCharities
-         }*/
-
     }
 
     protected function setStatus(msg:String):void {
