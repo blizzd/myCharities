@@ -9,7 +9,7 @@ import starling.events.EventDispatcher;
 
 public class UserEvent extends Event {
 
-    public static const USER_LOADED:String = "user-loaded";
+    public static const TRANSACTIONS_READY:String = "transactions_ready";
 
     private var _target:Sprite;
 

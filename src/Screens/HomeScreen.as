@@ -1,7 +1,10 @@
 package Screens {
 	import Elements.ListButton;
 	import Elements.ButtonItemRenderer;
-	import feathers.controls.renderers.IListItemRenderer;
+
+import blizz.presentationLayer.signals.UserEvent;
+
+import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.controls.List;
 	import starling.display.Image;
@@ -104,40 +107,34 @@ package Screens {
 			addChild(container);
 		}
 		
-		private function addList():void
-		{
-			 var textField:TextField = new TextField(100, 100, "");
-			 textField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
-			 textField.text = "Recent Donations:";
-			 textField.pivotY -= 5;
-			 _root.addChild(textField);
-			 _root.width = _myStage.width-20;
-			 
+		private function addList():void {
+			var textField:TextField = new TextField(100, 100, "");
+			textField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+			textField.text = "Recent Donations:";
+			textField.pivotY -= 5;
+			_root.addChild(textField);
+			_root.width = _myStage.width - 20;
+
 			_transactions = new List();
-			_transactions.width = _myStage.width-20;
-			_transactions.height = _myStage.height/3;
-			var recentDonations:Vector.<Object> = new Vector.<Object>();
-			recentDonations.push({ value: "Ebay " + "0,30 Euro" });
-  			recentDonations.push({ value: "Ebay " + "0,30 Euro" });
-			recentDonations.push({ value: "Ebay " + "0,30 Euro" });
-			recentDonations.push({ value: "Ebay " + "0,30 Euro" });
-  			
-			_transactions.itemRendererFactory = function():IListItemRenderer
-			{
-    		var renderer:ButtonItemRenderer = new ButtonItemRenderer();
-    		return renderer;
+			_transactions.width = _myStage.width - 20;
+			_transactions.height = _myStage.height / 3;
+
+			_transactions.itemRendererFactory = function ():IListItemRenderer {
+				var renderer:ButtonItemRenderer = new ButtonItemRenderer();
+				return renderer;
 			};
-			
+
 			_transactions.pivotY -= 20;
-			_transactions.isSelectable =false;
-			initList(recentDonations);
+			_transactions.isSelectable = false;
+			initList();
 			_root.addChild(_transactions);
+			_myStage.addEventListener(UserEvent.TRANSACTIONS_READY, initList);
 		}
-		
-		public function initList(entries:Vector.<Object>)
+
+		public function initList(event:UserEvent = null)
 		{
 			var charities:ListCollection = new ListCollection();
-			for each (var obj : Object in entries) 
+			for each (var obj : Object in UserDataModel.currentTransactions)
 			{
 				charities.push(new ListButton(_myStage, obj.value));
 			}
