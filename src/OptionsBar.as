@@ -73,8 +73,11 @@ package {
 				public var helpScreen:HelpScreen;
 				public var bragScreen:BragScreen;
 				
+				private var _optionsheight:int;
+				
 		public function init(application:App, optionsHeight:Number):void
 		{
+			_optionsheight = optionsHeight / 2;
 			_dropManager = new DropDownPopUpContentManager();
 			_myStage = application.stage;
 			app = application;
@@ -122,7 +125,7 @@ package {
 		{
 		    var texture:Texture = Texture.fromBitmap(new Icon());
  			var homeButton:Image = new Image(texture);
-			homeButton.width = homeButton.height = _myStage.stageWidth/5;
+			homeButton.width = homeButton.height = _optionsheight;
 			homeButton.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
 			if (e.touches[0].phase == TouchPhase.ENDED)
 			{
@@ -137,7 +140,7 @@ package {
 		{
 			var texture:Texture = Texture.fromBitmap(new Chariset());
  			var button:Image = new Image(texture);
-			button.width = button.height = _myStage.stageWidth/5;
+			button.width = button.height = _optionsheight;
 			button.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
 			if (e.touches[0].phase == TouchPhase.ENDED)
 			{
@@ -152,7 +155,7 @@ package {
 		{
 			var texture:Texture = Texture.fromBitmap(new Brag());
  			var button:Image = new Image(texture);
-			button.width = button.height = _myStage.stageWidth/5;
+			button.width = button.height = _optionsheight;
 			button.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
 			if (e.touches[0].phase == TouchPhase.ENDED)
 			{

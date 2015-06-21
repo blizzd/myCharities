@@ -55,13 +55,13 @@ package Screens {
 			var noVal:RadioContainer = new RadioContainer(this, "boo");
 			
 			_options.push(fixedVal);
-			fixedVal.addChild(new TextField(100, 30, "Fixed value"));
+			fixedVal.addChild(new TextField(300, 30, "1 Euro"));
 			_options.push(percentVal);
-			percentVal.addChild(new TextField(100, 30, "% value"));
+			percentVal.addChild(new TextField(300, 30, "10%"));
 			_options.push(roundedVal);
-			roundedVal.addChild(new TextField(100, 30, "Round to next"));
+			roundedVal.addChild(new TextField(300, 30, "Round to next 10 Euros"));
 			_options.push(noVal);
-			noVal.addChild(new TextField(100, 30, "Don't donate"));
+			noVal.addChild(new TextField(300, 30, "Don't donate"));
 			
 			addChild(fixedVal);
 			addChild(percentVal);

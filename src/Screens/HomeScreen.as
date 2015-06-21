@@ -73,7 +73,7 @@ import feathers.controls.renderers.IListItemRenderer;
 		{
 			
 			
-			var headerHeight:Number = _myStage.stageHeight/5;
+			var headerHeight:Number = _myStage.stageHeight/12;
 			var layout:VerticalLayout = new VerticalLayout();
 			layout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_CENTER;
 			layout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_TOP;
@@ -125,6 +125,7 @@ import feathers.controls.renderers.IListItemRenderer;
 			};
 
 			_transactions.pivotY -= 20;
+			_transactions.pivotX -= 10;
 			_transactions.isSelectable = false;
 			initList();
 			_root.addChild(_transactions);
