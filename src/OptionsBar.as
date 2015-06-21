@@ -140,7 +140,7 @@ package {
 		{
 			var texture:Texture = Texture.fromBitmap(new Chariset());
  			var button:Image = new Image(texture);
-			button.width = button.height = _optionsheight;
+			button.width = button.height = _myStage.stageWidth/5;
 			button.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
 			if (e.touches[0].phase == TouchPhase.ENDED)
 			{
@@ -155,7 +155,7 @@ package {
 		{
 			var texture:Texture = Texture.fromBitmap(new Brag());
  			var button:Image = new Image(texture);
-			button.width = button.height = _optionsheight;
+			button.width = button.height = _myStage.stageWidth/5;
 			button.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
 			if (e.touches[0].phase == TouchPhase.ENDED)
 			{
