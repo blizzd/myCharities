@@ -18,7 +18,7 @@ package Elements {
 		override public function set data(value:Object):void
 		{
 			super.data = value;
-			addChild(value.field as ListButton);
+			addChild(value as ListButton);
 			invalidate();
 			
 		}

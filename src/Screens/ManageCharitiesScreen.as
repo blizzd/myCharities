@@ -47,22 +47,20 @@ package Screens {
 			container.layout = layout;
 			
 			container.width = _myStage.width;
-			container.height = _myStage.stageHeight/2;
+			container.height = _myStage.stageHeight/2.5;
 			
 			var charities:ListCollection = new ListCollection(
 			[
-  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
-  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
-    		  { field: new ListButton(_myStage, "test" + " " + "5%") },
-  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
-			    { field: new ListButton(_myStage, "sgdgdst" + " " + "5%") },
-  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
-    		  { field: new ListButton(_myStage, "test" + " " + "5%") },
-  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
-			    { field: new ListButton(_myStage, "test" + " " + "5%") },
-  			  { field: new ListButton(_myStage, "test" + " " + "5%") },
-    		  { field: new ListButton(_myStage, "test" + " " + "5%") },
-  			  { field: new ListButton(_myStage, "tsfffs" + " " + "5%") }
+  			    new ListButton(_myStage, "test" + " " + "5%"),
+				new ListButton(_myStage, "test" + " " + "5%"),
+				new ListButton(_myStage, "test" + " " + "5%"),
+				new ListButton(_myStage, "test" + " " + "5%"),
+				new ListButton(_myStage, "test" + " " + "5%"),
+				new ListButton(_myStage, "test" + " " + "5%"),
+				new ListButton(_myStage, "tedffdst" + " " + "5%"),
+				new ListButton(_myStage, "test" + " " + "5%"),
+				new ListButton(_myStage, "test" + " " + "5%")
+			  
 			]);
 			
 			container.addEventListener(Event.CHANGE, selectListener);
@@ -70,7 +68,6 @@ package Screens {
 			container.itemRendererFactory = function():IListItemRenderer
 			{
     		var renderer:ButtonItemRenderer = new ButtonItemRenderer();
-			renderer.labelField = "field";
     		return renderer;
 			};
 			container.dataProvider = charities;
@@ -84,7 +81,7 @@ package Screens {
 		{
 			var target:List = (e.currentTarget as List);
 			target.removeEventListener(Event.CHANGE, selectListener);
-			var selected:String = (target.selectedItem.field as ListButton).text;
+			var selected:String = (target.selectedItem as ListButton).text;
 			target.selectedIndex = -1;
 			target.addEventListener(Event.CHANGE, selectListener);
 		}
