@@ -38,6 +38,7 @@ public class Main extends Sprite {
         _starling.stage.stageHeight *= screenWidth / _starling.stage.stageWidth;
         _starling.stage.stageWidth  = screenWidth ;
 
+        //showAppForUser("Mister Fab");
         showPaypalLoginPage();
     }
 
