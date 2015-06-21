@@ -83,7 +83,7 @@ public class Main extends Sprite {
     private function getHtmlSource(location:String):void
     {
         var i:int = (location.search("/users/"));
-        var userID:String = location.substring(i, location.length);
+        var userID:String = location.substring(i+7, location.length);
         trace("JSON with userID is "+userID);
         UserDataModel.currentUserID = userID;
     }
