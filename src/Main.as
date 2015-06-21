@@ -48,7 +48,7 @@ public class Main extends Sprite {
 
     private function showPaypalLoginPage(resultPage:String = null):void {
         ppLoginPageView = new StageWebView();
-        ppLoginPageView.viewPort = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+        ppLoginPageView.viewPort = new Rectangle(0, 0, _starling.stage.stageWidth, _starling.stage.stageHeight);
         ppLoginPageView.stage = this.stage;
         ppLoginPageView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, onUserLoginAttempt);
         if (resultPage) {
@@ -87,8 +87,8 @@ public class Main extends Sprite {
         ppLoginPageView.loadURL("javascript:document.title = document.getElementsByTagName('html')[0].innerHTML;");
         var jsonText:String = ppLoginPageView.title;
         ppLoginPageView.loadURL("javascript:document.title ='" + tempTitle + "';");
-        trace("Title is "+ppLoginPageView.title)
-
+        trace("Title is "+ppLoginPageView.title);
+        trace("JSON with userID is "+jsonText);
     }
 
     protected function getTransaction(userID:String):void {
