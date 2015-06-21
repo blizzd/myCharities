@@ -26,8 +26,10 @@ package Elements {
 			_parent = parent;
 			super();
 			manager = man;
+			_root = new LayoutGroup();
+			_root.width = parent.stage.stageWidth/3;
 			
-			slider = new Slider();
+			this.slider = new Slider();
      		slider.minimum = 0;
    			slider.maximum = 100;
     		slider.step = 1;
