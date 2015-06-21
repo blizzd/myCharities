@@ -39,6 +39,7 @@ package Screens {
 		public var MyStage:Stage;
 		private var _charityList:Vector.<Object>;
 		private var _charityButtonList:List;
+		private var _selected:int;
 			
 		public override function init(stage:Stage):void
 		{
@@ -57,15 +58,10 @@ package Screens {
 			_charityButtonList.height = MyStage.stageHeight/2.5;
 			
 			var charities:Vector.<Object> = new Vector.<Object>();
-			charities.push(  {text:"Test", percent:5});
-			charities.push(  {text:"Test", percent:5});
-			charities.push(  {text:"Test", percent:5});
-			charities.push(  {text:"Test", percent:5});
-			charities.push(  {text:"ererer", percent:25});
-			charities.push(  {text:"Test", percent:5});
-			charities.push(  {text:"Test", percent:5});
-			charities.push(  {text:"Test", percent:5});
-			charities.push(  {text:"Test", percent:5});
+			charities.push(  {text:"Unicef", percent:25});
+			charities.push(  {text:"WWF", percent:25});
+			charities.push(  {text:"Greenpeace", percent:25});
+			charities.push(  {text:"Bill Gates Foundation", percent:25});
 			
 			
 			_charityButtonList.typicalItem = new ButtonItemRenderer();
@@ -80,6 +76,29 @@ package Screens {
 			addChild(_charityButtonList);
 
 			generateHeader();
+		}
+		
+		public function changeSelectedValue(amount:int)
+		{
+			var difference:int = (_charityList[_selected].percent - amount)/(_charityList.length - 1);
+			var sofar:int = 0;
+			for (var i:int = 0; i < _charityList.length; i++)
+			{
+				
+				if (_selected == i)
+				{
+					_charityList[i].percent = amount;
+					sofar += amount;
+				} else if (i == _charityList.length - 1)
+				{
+					100 - sofar;
+				}
+				{
+					_charityList[i].percent = Math.min(100,(Math.max(0,_charityList[i].percent + difference)));
+					sofar += _charityList[i].percent;
+				}
+			}
+			initList(_charityList);
 		}
 		
 		public function initList(entries:Vector.<Object>)
@@ -100,15 +119,9 @@ package Screens {
 			var target:List = (e.currentTarget as List);
 			target.removeEventListener(Event.CHANGE, selectListener);
 			var test:Object = _charityButtonList.selectedItem;
-			var selected:Object = _charityList[_charityButtonList.selectedIndex];
+			_selected = _charityButtonList.selectedIndex;
+			var selected:Object = _charityList[_selected];
 			
-			
-			_dropManager.close();
-			var details:CharityDetailDropDown = new CharityDetailDropDown(_dropManager, this, selected);
-			_dropManager.open(details, target.selectedItem as ListButton);
-			target.selectedIndex = -1;
-			target.selectedItem = null;
-			target.addEventListener(Event.CHANGE, selectListener);
 		}
 		
 		private function generateHeader():void
