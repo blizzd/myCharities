@@ -81,8 +81,8 @@ import feathers.controls.renderers.IListItemRenderer;
 			_root.width = _myStage.stageWidth;
 			_root.y += _topOffset;
 			var bg:Quad = new Quad( _myStage.stageWidth -84, headerHeight, 0x7eff8c );
-			var text:String = "Hello " + UserDataModel.currentUser + " !\n" +
-			"Rank: King Giving\n" +
+			var text:String = "Hello " + UserDataModel.currentUser + " ! \n" +
+			"Rank: King Giving \n" +
 			"Donated X Times. X donations needed for next rank.";
 			 var textField:TextField = new TextField(100, 100, "");
 			 textField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
@@ -136,7 +136,7 @@ import feathers.controls.renderers.IListItemRenderer;
 			var charities:ListCollection = new ListCollection();
 			for each (var obj : Object in UserDataModel.currentTransactions)
 			{
-				charities.push(new ListButton(_myStage, obj.value));
+				charities.push(new ListButton(_myStage, obj.value +" \u20AC"));
 			}
 			_transactions.dataProvider = charities;
 		}
