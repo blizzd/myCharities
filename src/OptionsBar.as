@@ -44,13 +44,24 @@ package {
 	{
 				[Embed(source="Graphics/icon.png")]
 				public static const Icon:Class;
+				
+				[Embed(source="Graphics/Chariset.png")]
+				public static const Chariset:Class;
+				
+				[Embed(source="Graphics/Settings.png")]
+				public static const Setting:Class;
+				
+				[Embed(source="Graphics/Brag.png")]
+				public static const Brag:Class;
+				
+				[Embed(source="Graphics/Help.png")]
+				public static const Help:Class;
 		
-				private var _dropManager:DropDownPopUpContentManager;	
-		
-				private var _donationButton:Button;
-				private var _settingsButton:Button;
-				private var _braggingButton:Button;
-				private var _helpButton:Button;
+				private var _dropManager:DropDownPopUpContentManager;
+				private var _charityButton:Image;
+				private var _settingsButton:Image;
+				private var _braggingButton:Image;
+				private var _helpButton:Image;
 				private var _myStage:Stage;
 				
 				public var app:App;
@@ -101,17 +112,17 @@ package {
 		private function generateButtons():void
 		{
 			 generateHome();
-			_donationButton = generateDonation();
-			_settingsButton = generateSettings();
+			 _charityButton = generateDonation();
+			 _settingsButton = generateSettings();
 			_braggingButton = generateBragging();
-			_helpButton = generateHelp();
+			 _helpButton = generateHelp();
 		}
 		
 		private function generateHome():void
 		{
 		    var texture:Texture = Texture.fromBitmap(new Icon());
  			var homeButton:Image = new Image(texture);
-			homeButton.scaleX = homeButton.scaleY = 0.225;
+			homeButton.width = homeButton.height = _myStage.stageWidth/5;
 			homeButton.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
 			if (e.touches[0].phase == TouchPhase.ENDED)
 			{
@@ -121,99 +132,92 @@ package {
 			addChild(homeButton);
 		}
 		
-		private function generateCharity():Button
+		
+		private function generateDonation():Image
 		{
-			var button:Button = new Button();
-			button.label = "SCharities";
-			button.name = "Char";
-			button.addEventListener(Event.TRIGGERED, button_triggered);
+			var texture:Texture = Texture.fromBitmap(new Chariset());
+ 			var button:Image = new Image(texture);
+			button.width = button.height = _myStage.stageWidth/5;
+			button.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
+			if (e.touches[0].phase == TouchPhase.ENDED)
+			{
+				popCharity();
+			}
+			});
+			addChild(button);
+			return button;
+		}
+		
+		private function generateBragging():Image
+		{
+			var texture:Texture = Texture.fromBitmap(new Brag());
+ 			var button:Image = new Image(texture);
+			button.width = button.height = _myStage.stageWidth/5;
+			button.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
+			if (e.touches[0].phase == TouchPhase.ENDED)
+			{
+				popBrag();
+			}
+			});
+			addChild(button);
+			return button;
+		}
+		
+		private function generateSettings():Image
+		{
+			var texture:Texture = Texture.fromBitmap(new Setting());
+ 			var button:Image = new Image(texture);
+			button.width = button.height = _myStage.stageWidth/5;
+			button.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
+			if (e.touches[0].phase == TouchPhase.ENDED)
+			{
+				popSettings();
+			}
+			});
+			addChild(button);
+			return button;
+		}
+		
+		private function generateHelp():Image
+		{
+			var texture:Texture = Texture.fromBitmap(new Help());
+ 			var button:Image = new Image(texture);
+			button.width = button.height = _myStage.stageWidth/5;
+			button.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
+			if (e.touches[0].phase == TouchPhase.ENDED)
+			{
+				popHelp();
+			}
+			});
 			addChild(button);
 			return button;
 			
 		}
 		
-		private function generateDonation():Button
-		{
-			var button:Button = new Button();
-			button.label = "SDonat";
-			button.name = "SDonat";
-			button.addEventListener(Event.TRIGGERED, button_triggered);
-			addChild(button);
-			return button;
-		}
-		
-		private function generateBragging():Button
-		{
-			var button:Button = new Button();
-			button.label = "Brag";
-			button.name = "Brag";
-			button.addEventListener(Event.TRIGGERED, button_triggered);
-			addChild(button);
-			return button;
-		}
-		
-		private function generateSettings():Button
-		{
-			var button:Button = new Button();
-			button.label = "Set";
-			button.name = "Set";
-			button.addEventListener(Event.TRIGGERED, button_triggered);
-			addChild(button);
-			return button;
-		}
-		
-		private function generateHelp():Button
-		{
-			var button:Button = new Button();
-			button.label = "?";
-			button.name = "?";
-			button.addEventListener(Event.TRIGGERED, button_triggered);
-			addChild(button);
-			return button;
-		}
-		
-		private function button_triggered(e:Event):void
-		{
-			_dropManager.close();
-			var button:Button = e.target as Button;
-			if (button.name == "Brag")
-			{
-				popBrag();
-			}
-			else if (button.name == "SDonat")
-			{
-				popCharity();
-			}
-			else if (button.name == "Set")
-			{
-				popSettings();
-			}
-			else if (button.name == "?")
-			{
-				popHelp();
-			}
-		}
-		
 		private function popSettings():void
 		{
+			_dropManager.close();
 			var popContent:SettingsDropDown = new SettingsDropDown(_dropManager, this);
 			 _dropManager.open(popContent, _settingsButton);
 		}
 		
 		private function popCharity():void
 		{
+				_dropManager.close();
 			var popContent:CharityDropDown = new CharityDropDown(_dropManager, this);
-			 _dropManager.open(popContent, _donationButton);
+			 _dropManager.open(popContent, _charityButton);
 		}
 		
 		private function popBrag():void
 		{
+				_dropManager.close();
 			var popContent:BraggingDropDown = new BraggingDropDown(_dropManager, this);
 			 _dropManager.open(popContent, _braggingButton);
 		}
 		
 		private function popHelp():void
 		{
+				_dropManager.close();
 			var popContent:HelpDropDown = new HelpDropDown(_dropManager, this);
 			 _dropManager.open(popContent, _helpButton);
 		}
