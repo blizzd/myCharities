@@ -31,7 +31,7 @@ import feathers.controls.LayoutGroup;
 		protected function addedToStageHandler( event:Event ):void
 		{
 			new MinimalMobileTheme();
-			optionsHeight = stage.stageHeight/10;
+			optionsHeight = stage.stageHeight/6;
 			setBackground();
 			optionsBar = new OptionsBar();
 			optionsBar.init(this, optionsHeight);

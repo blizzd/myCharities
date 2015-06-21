@@ -1,4 +1,8 @@
 package {
+	import starling.events.TouchPhase;
+	import starling.events.TouchEvent;
+	import starling.display.Image;
+	import starling.textures.Texture;
 	import Elements.HelpDropDown;
 	import Elements.BraggingDropDown;
 	import Elements.CharityDropDown;
@@ -38,9 +42,11 @@ package {
 	 */
 	public class OptionsBar extends LayoutGroup
 	{
+				[Embed(source="Graphics/icon.png")]
+				public static const Icon:Class;
+		
 				private var _dropManager:DropDownPopUpContentManager;	
 		
-				private var _homeButton:Button;
 				private var _donationButton:Button;
 				private var _settingsButton:Button;
 				private var _braggingButton:Button;
@@ -94,22 +100,25 @@ package {
 		
 		private function generateButtons():void
 		{
-			_homeButton = generateHome();
+			 generateHome();
 			_donationButton = generateDonation();
 			_settingsButton = generateSettings();
 			_braggingButton = generateBragging();
 			_helpButton = generateHelp();
 		}
 		
-		private function generateHome():Button
+		private function generateHome():void
 		{
-			var button:Button = new Button();
-			button.label = "Home";
-			button.name = "Home";
-			button.addEventListener(Event.TRIGGERED, button_triggered);
-			addChild(button);
-			return button;
-			
+		    var texture:Texture = Texture.fromBitmap(new Icon());
+ 			var homeButton:Image = new Image(texture);
+			homeButton.scaleX = homeButton.scaleY = 0.225;
+			homeButton.addEventListener(TouchEvent.TOUCH, function (e:TouchEvent){
+			if (e.touches[0].phase == TouchPhase.ENDED)
+			{
+				app.setScreen(homeScreen);
+			}
+			});
+			addChild(homeButton);
 		}
 		
 		private function generateCharity():Button
@@ -167,11 +176,7 @@ package {
 		{
 			_dropManager.close();
 			var button:Button = e.target as Button;
-			if (button.name == "Home")
-			{
-				app.setScreen(homeScreen);
-			} 
-			else if (button.name == "Brag")
+			if (button.name == "Brag")
 			{
 				popBrag();
 			}
